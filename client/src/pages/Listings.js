@@ -22,7 +22,7 @@ function Listings() {
         //make a component for this, use props
         <ul>
             {listings.map(listing => (
-                <ListItem title={listing.title} id={listing._id}/>
+                <ListItem title={listing.title} id={listing._id} key={listing._id}/>
             ))}
         </ul>
     );

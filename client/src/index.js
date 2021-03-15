@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { reducers } from './components/reducer'
+import { reducers } from './reducer'
 
 //store is a globalized state where you can pull data from with redux so you don't have to go down on the component tree
 

@@ -51,7 +51,6 @@ function Listing({ match }) {
 
     return (
         <div>
-            {console.log(listing)}
             <h3 >{listing.title}</h3>
             <img alt ="" src={listing.image} />
             <p>{listing.description}</p>

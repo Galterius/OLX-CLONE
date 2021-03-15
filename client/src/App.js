@@ -2,15 +2,15 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import About from './components/pages/About'
-import Home from './components/pages/Home'
+import About from './pages/About'
+import Home from './pages/Home'
 
-import Listings from './components/pages/Listings'
-import Show from './components/pages/Show'
-import NewListing from './components/pages/NewListing'
-import Edit from './components/pages/Edit'
+import Listings from './pages/Listings'
+import Show from './pages/Show'
+import NewListing from './pages/NewListing'
+import Edit from './pages/Edit'
 
-import Register from './components/pages/Register';
+import Register from './pages/Register';
 
 import  NavigationBar  from './components/NavigationBar';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
