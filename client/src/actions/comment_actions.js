@@ -12,3 +12,15 @@ export const createComment = (listingId, comment) => async (dispatch) =>{
         console.log(error)
     }
 }
+
+export const deleteComment = (commentId) => async (dispatch) => {
+    try {
+        const { data } = await api.deleteComment(commentId)
+        dispatch({
+            type: DELETE,
+            payload: data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}

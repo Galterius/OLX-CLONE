@@ -3,24 +3,23 @@ import {Link} from 'react-router-dom';
 import * as api from '../api/index'
 import { ListItem } from '../components/ListItem'
 
-function Listings() {
-    //useState when the data chnages re-render the UI
-    const [listings , setData] = useState([]);
+import { useSelector, useDispatch } from 'react-redux'
+import { getListing } from '../actions/listing_actions'
 
-    //runs automatically when the component is mounted
+function Listings() {
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        fetchListings();
-    }, [])
-    
-    const fetchListings = async () =>{
-        const data = await api.fetchListings();
-        const items = await JSON.parse(data.request.response)
-        setData(items)
-    }
+      dispatch(getListing())
+    },[])
+
+    //retriwing the data from the app because we use a redux store
+    const listings = useSelector((state) => state.listings)
 
     return (
         //make a component for this, use props
         <ul>
+            {console.log(listings)}
             {listings.map(listing => (
                 <ListItem title={listing.title} id={listing._id} key={listing._id}/>
             ))}

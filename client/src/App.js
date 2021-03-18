@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -16,7 +16,9 @@ import  NavigationBar  from './components/NavigationBar';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 
+
 function App() {
+
   return (
     //eveything that is between the router tag will have the ability to route
     <Router>
