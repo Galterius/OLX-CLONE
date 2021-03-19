@@ -1,6 +1,4 @@
-import React, { useState, useEffect, } from 'react';
-import {Link} from 'react-router-dom';
-import * as api from '../api/index'
+import React, { useEffect } from 'react';
 import { ListItem } from '../components/ListItem'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,7 +9,7 @@ function Listings() {
 
     useEffect(() => {
       dispatch(getListing())
-    },[])
+    },[dispatch])
 
     //retriwing the data from the app because we use a redux store
     const listings = useSelector((state) => state.listings)

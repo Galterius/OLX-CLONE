@@ -21,13 +21,13 @@ function Listing({ match }) {
     
     //retriving the data from Listings so we can skip an api call
     const [newComment, setComment] = useState(initialComment);
-    const [listingState, setListingState] = useState([])
+    const [listingState, setListingState] = useState(0)
     const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(()=>{
         dispatch(getOneListing(match.params.id));
-        console.log("sas")
+        return () => setListingState('');
     },[listingState]);
 
     const listing = useSelector((state) => state.oneListing)
@@ -40,7 +40,7 @@ function Listing({ match }) {
     const handleSubmit = async (e) =>{
         e.preventDefault();
         dispatch(createComment(match.params.id, newComment))
-        setListingState(listing)
+        setListingState((prevState)=> prevState+1)
     }
     
     const handleChange = async (e) =>{
@@ -51,7 +51,7 @@ function Listing({ match }) {
         e.preventDefault();
         const commentId = e.target.value;
         dispatch(deleteComment(commentId));
-        setListingState(listing)
+        setListingState((prevState)=> prevState-1)
     }
 
     return (
