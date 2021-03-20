@@ -40,7 +40,27 @@ router.put('/listings/:id',auth, owner, catchAsync(async (req,res)=>{
 
 router.delete('/listings/:id', auth, owner ,catchAsync(async (req, res)=>{    
     const { id } = req.params;
-    await Listing.findByIdAndDelete(id);
+    await Listing.findById(id, (err, foundListing) =>{
+        if(!err){
+            
+            foundListing.comments.forEach(comment => {
+                Comments.findByIdAndRemove(comment, (err)=>{
+                    if(err){
+                        console.log(err)
+                    }
+                })
+            })
+        }else{
+            console.log(err)
+        }
+    });
+
+    await Listing.findByIdAndRemove(id, (err)=>{
+        if(err){
+            console.log(err)
+        }
+    })
+
     console.log("deleted");
     // res.redirect('/listings')
 }));

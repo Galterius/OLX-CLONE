@@ -10,7 +10,7 @@ export const CommentItem = (props) => {
                     <div className="card-body">
                         <h6 className="card-subtitle mb-2 text-muted">{props.comment.author.commenterName}</h6>
                         <p className="card-text">{props.comment.comment}</p>
-                    {(props.user?.result?.googleId === props.listingCreator || props.user?.result?._id === props.listingCreator) && (
+                    {(props.user?.result?.googleId === props.comment.author.commenterId || props.user?.result?._id === props.comment.author.commenterId) && (
                         <div> 
                             <button className="card-link btn btn-primary">Edit</button>
                             <button className="card-link btn btn-danger" value={props.comment._id} onClick={props.handleDeleteComment}>Delet</button>

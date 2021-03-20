@@ -21,7 +21,7 @@ router.post('/', auth, catchAsync(async (req, res)=>{
 
 router.delete('/:comment_id', auth, catchAsync(async (req, res) => {
     const { comment_id } = req.params;
-    const deleted = await Comments.findByIdAndDelete(comment_id)
+    const deleted = await Comments.findByIdAndRemove(comment_id)
     console.log(deleted);
     res.status(200).json(deleted);
 }))
