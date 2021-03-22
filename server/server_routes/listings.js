@@ -12,8 +12,8 @@ router.post('/listings', auth, catchAsync(listingController.createListing));
 
 router.get('/listings/:id', catchAsync(listingController.getOneListing));
 
-router.put('/listings/:id',auth, owner, catchAsync(listingController.updateListing));
+router.put('/listings/:id',auth, owner.listingOwner, catchAsync(listingController.updateListing));
 
-router.delete('/listings/:id', auth, owner ,catchAsync(listingController.deleteListing));
+router.delete('/listings/:id', auth, owner.listingOwner, catchAsync(listingController.deleteListing));
 
 module.exports = router;

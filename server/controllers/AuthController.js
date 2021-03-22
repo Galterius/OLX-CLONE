@@ -6,7 +6,7 @@ const User = require('../models/user-models');
 
 exports.registerUser = async(req, res) =>{
     const { email, password, name } = req.body;
-    console.log(email, password, name);
+    ;
     try {
         const existingUser = await User.findOne({ email });
 

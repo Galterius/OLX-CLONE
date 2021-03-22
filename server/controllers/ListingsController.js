@@ -21,7 +21,6 @@ exports.createListing = async (req,res) =>{
 
 exports.getOneListing = async (req, res)=>{
     const listing = await Listing.findById(req.params.id).populate("comments").exec();
-    console.log(listing);
     if(!listing){
         throw new AppError( 404, 'Your product cannot be found')
     }
