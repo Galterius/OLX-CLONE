@@ -13,6 +13,18 @@ export const createComment = (listingId, comment) => async (dispatch) =>{
     }
 }
 
+export const editComment = (commentId, comment) => async (dispatch) => {
+    try {
+        const { data } = await api.editComment(commentId, comment);
+        dispatch({
+            type: CREATE,
+            payload: data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const deleteComment = (commentId) => async (dispatch) => {
     try {
         const { data } = await api.deleteComment(commentId)

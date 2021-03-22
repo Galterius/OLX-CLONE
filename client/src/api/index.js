@@ -18,6 +18,7 @@ export const editListing = (id, updateList, listingCreator) => API.put(`/api/lis
 export const deleteListing = (id, listingCreator) => API.delete(`/api/listings/${id}`, {params: {listingCreator}});
 
 export const createComment = (listingId, comment) => API.post(`/api/listings/${listingId}/comments`, comment)
+export const editComment = (commentId, comment) => API.put(`/api/listings/:id/comments/${commentId}`, comment)
 export const deleteComment = (commentId) => API.delete(`/api/listings/:id/comments/${commentId}`) 
 
 export const singIn = (formData) => API.post('user/login', formData);

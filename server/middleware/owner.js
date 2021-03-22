@@ -14,8 +14,7 @@ exports.listingOwner = async (req, res, next) =>{
 
 exports.commentOwner = async (req, res, next)=>  {
     const senderId = req.userId
-    const { comment_id} = req.params
-
+    const { comment_id } = req.params
 
     await Comments.findById(comment_id, (err, foundComment)=>{
         if(!err){

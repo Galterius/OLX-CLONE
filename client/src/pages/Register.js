@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 
