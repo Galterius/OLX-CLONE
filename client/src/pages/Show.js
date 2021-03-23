@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { useHistory, Link} from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteListing, getOneListing } from '../actions/listing_actions'
-import { createComment,deleteComment } from '../actions/comment_actions'
+import { createComment, deleteComment, editComment } from '../actions/comment_actions'
 import { ShowItem } from '../components/ShowItem'
 import { useSelector } from 'react-redux'
 
@@ -19,14 +19,21 @@ function Listing({ match }) {
         comment: ''
     };
     
+    const initialState = {commentId: '', comment:''}
+    const[editedComment, setEditedComment] = useState(initialState);
+
+    const [isEdit, setIsEdit] = useState(false);
+
     //retriving the data from Listings so we can skip an api call
     const [newComment, setComment] = useState(initialComment);
     const [listingState, setListingState] = useState(0)
+
     const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(()=>{
         dispatch(getOneListing(match.params.id));
+        console.log('hihi')
         return () => setListingState('');
     },[listingState]);
 
@@ -47,6 +54,19 @@ function Listing({ match }) {
         setComment({ ...newComment, [e.target.name]: e.target.value})
     }
 
+
+
+    const handleCommentChange = (e) =>{
+        setEditedComment(e)
+    }
+
+    const handleCommentEditSubmit = (e) =>{
+        e.preventDefault();
+        dispatch(editComment(editedComment?.commentId, editedComment))
+        setListingState((prevState)=> prevState-1)
+        switchMode();
+    }
+
     const handleDeleteComment = async (e) =>{
         e.preventDefault();
         const commentId = e.target.value;
@@ -54,9 +74,28 @@ function Listing({ match }) {
         setListingState((prevState)=> prevState-1)
     }
 
+
+    const switchMode = () => {
+        setIsEdit((prevIsEdit) => !prevIsEdit)
+    }
+
+
     return (
         <div>
-            <ShowItem listing={listing} handleChange={handleChange} handleDeleteComment={handleDeleteComment} handleSubmit={handleSubmit} handleDeleteClick={handleDeleteClick}/>
+
+            <ShowItem 
+                listing={listing}
+                editedComment={editedComment}
+                switchMode={switchMode}
+                isEdit={isEdit}
+                onChange={handleCommentChange}
+                handleCommentEditSubmit={handleCommentEditSubmit} 
+                handleChange={handleChange} 
+                handleDeleteComment={handleDeleteComment} 
+                handleSubmit={handleSubmit} 
+                handleDeleteClick={handleDeleteClick}
+            />
+
         </div>
     );
     

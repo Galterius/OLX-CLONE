@@ -37,7 +37,7 @@ function NavigationBar() {
     //JWT
     setUser(JSON.parse(localStorage.getItem('profile')));
     
-  }, [location]);//when the location changes we set the user so it will refresh the navbar
+  }, [location]);//when the location changes we set the user so it will update the navbar
 
   const logout = () =>{
     dispatch ({ type: 'LOGOUT'});

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory, Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CommentItem } from './CommentItem'
 
 export const ShowItem = (props) =>{
@@ -31,9 +31,14 @@ export const ShowItem = (props) =>{
                 </form>
             </div>
             {props.listing?.comments?.map(comment =>
-                <CommentItem 
+                <CommentItem
                     key={comment._id}
-                    comment={comment} 
+                    comment={comment}
+                    switchMode={props.switchMode}
+                    isEdit={props.isEdit}
+                    handleCommentEditSubmit={props.handleCommentEditSubmit}
+                    editedComment={props.editedComment}
+                    onChange={props.onChange}
                     user={user} 
                     handleDeleteComment={props.handleDeleteComment}
                     listingCreator={props?.listing?.creator}
