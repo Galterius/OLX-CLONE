@@ -7,7 +7,6 @@ export const ListItem = (props) =>{
     
     return(
         <div>
-            {console.log(listings)}
         <Link to={{
             pathname:`/listing/${props.id}`,
         }}>{props.title}</Link>

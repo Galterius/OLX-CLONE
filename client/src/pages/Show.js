@@ -6,6 +6,8 @@ import { createComment, deleteComment, editComment } from '../actions/comment_ac
 import { ShowItem } from '../components/ShowItem'
 import { useSelector } from 'react-redux'
 
+//mobx
+
 //if you like to something then it passes a the params and you can get is those with match
 function Listing({ match }) {
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -33,7 +35,6 @@ function Listing({ match }) {
 
     useEffect(()=>{
         dispatch(getOneListing(match.params.id));
-        console.log('hihi')
         return () => setListingState('');
     },[listingState]);
 
@@ -53,8 +54,6 @@ function Listing({ match }) {
     const handleChange = async (e) =>{
         setComment({ ...newComment, [e.target.name]: e.target.value})
     }
-
-
 
     const handleCommentChange = (e) =>{
         setEditedComment(e)

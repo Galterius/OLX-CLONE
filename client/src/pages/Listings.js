@@ -17,7 +17,6 @@ function Listings() {
     return (
         //make a component for this, use props
         <ul>
-            {console.log(listings)}
             {listings.map(listing => (
                 <ListItem title={listing.title} id={listing._id} key={listing._id}/>
             ))}

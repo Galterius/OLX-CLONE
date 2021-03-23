@@ -34,6 +34,7 @@ exports.updateListing = async (req,res)=>{
 
 exports.deleteListing = async (req, res)=>{    
     const { id } = req.params;
+    
     await Listing.findById(id, (err, foundListing) =>{
         if(!err){
             foundListing?.comments?.forEach(comment => {

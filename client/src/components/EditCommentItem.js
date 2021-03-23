@@ -2,6 +2,7 @@ import React from 'react';
 
 export const EditCommentItem = (props) =>{
     const initialItem = {commentId: props.commentId, comment: ''}
+
     const handleChange = (e) =>{
         props.onChange({ ...initialItem, [e.target.name]: e.target.value})
     }

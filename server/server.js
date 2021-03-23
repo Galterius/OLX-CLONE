@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const methodOverride = require('method-override');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 
@@ -30,7 +29,6 @@ const app = express();
 app.use(cors())
 
 app.use(express.urlencoded({extended: true}))
-app.use(methodOverride('_method'));
 app.use(bodyParser.json());
 
 const validateListing = (req, res, next)=>{
@@ -47,10 +45,6 @@ const validateListing = (req, res, next)=>{
 app.use('/api', listingRoutes);
 app.use('/api/listings/:id/comments', commentRoutes);
 app.use('/user', userRoutes);
-
-app.get('/', (req, res)=>{
-    //res.render('home')
-});
 
 
 app.all('*', (req, res, next) =>{
