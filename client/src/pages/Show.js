@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 import { deleteListing, getOneListing } from '../actions/listing_actions'
 import { createComment, deleteComment, editComment } from '../actions/comment_actions'
 import { ShowItem } from '../components/ShowItem'
-import { useSelector } from 'react-redux'
-
+import { useListingStore } from '../store/ListingContext'
 //mobx
 
 //if you like to something then it passes a the params and you can get is those with match
 function Listing({ match }) {
     const user = JSON.parse(localStorage.getItem('profile'))
+    const listingStore = useListingStore();
 
     const initialComment = {
         author:{
@@ -29,20 +29,26 @@ function Listing({ match }) {
     //retriving the data from Listings so we can skip an api call
     const [newComment, setComment] = useState(initialComment);
     const [listingState, setListingState] = useState(0)
-
+    const [listing, setListing] = useState('');
     const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        dispatch(getOneListing(match.params.id));
+        fetchOneListing();
         return () => setListingState('');
     },[listingState]);
 
-    const listing = useSelector((state) => state.oneListing)
+    const fetchOneListing = async ()=>{
+        const selectedListing = await getOneListing(match.params.id)
+        listingStore.addOneListing(selectedListing);
+        setListing(selectedListing);
+    }
+    
 
     const handleDeleteClick = async (e) =>{
         e.preventDefault();
         dispatch(deleteListing(match.params.id, listing?.creator, history));
+        listingStore.deleteListing(match.params.id);
     }
 
     const handleSubmit = async (e) =>{
@@ -81,8 +87,8 @@ function Listing({ match }) {
 
     return (
         <div>
-
-            <ShowItem 
+            {console.log(listing)}
+            <ShowItem
                 listing={listing}
                 editedComment={editedComment}
                 switchMode={switchMode}

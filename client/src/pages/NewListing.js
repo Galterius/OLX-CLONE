@@ -2,8 +2,10 @@ import {useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { createListing } from '../actions/listing_actions'
+import { useListingStore } from '../store/ListingContext'
 
 function NewListing(){
+    const listingStore = useListingStore();
     const initialState = { title: '', price: '', image: '', description:'', name:'' }
 
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -15,6 +17,7 @@ function NewListing(){
         e.preventDefault();
         //console.log(formData);
         dispatch(createListing(formData, history))
+        listingStore.addListings(formData)
     }
 
     const handleChange = (e) => {

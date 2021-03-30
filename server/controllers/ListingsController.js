@@ -1,57 +1,51 @@
-const Listing = require('../models/listings')
-const Comments = require('../models/comments');
+const listingService = require('../service/ListingService')
 
 exports.getListings = async (req, res) => {
-    const listings = await Listing.find({})
+    const listings = await listingService.getListingsService()
     res.json(listings);
 };
 
 exports.createListing = async (req,res) =>{
-    const listing = new Listing({...req.body, creator: req.userId, createdAt: new Date().toISOString()});
     
     try {
-        await listing.save();
+        const listing = await listingService.createListingService(req.body, req.userId)
         res.status(200).json(listing)
     } catch (error) {
         console.log(error)
-        res.status(409).json({message: err.message})
+        res.status(409).json({message: error.message})
     }
     
 };
 
 exports.getOneListing = async (req, res)=>{
-    const listing = await Listing.findById(req.params.id).populate("comments").exec();
-    if(!listing){
-        throw new AppError( 404, 'Your product cannot be found')
+    try {
+        const listing = await listingService.getOneListingService(req.params.id)
+        res.status(200).json(listing);
+    } catch (error) {
+        console.log(error)
+        res.status(409).json({message: error.message})
     }
-    res.json(listing);
+    
 }
 
 exports.updateListing = async (req,res)=>{
     const { id } = req.body;
-    await Listing.findByIdAndUpdate(id, {...req.body})
+    try {
+        const listing = await listingService.updateListingService(id, req.body)
+        res.status(200).json(listing);
+    } catch (error) {
+        console.log(error)
+        res.status(409).json({message: error.message})
+    }
 };
 
-exports.deleteListing = async (req, res)=>{    
+exports.deleteListing = async (req, res)=>{
     const { id } = req.params;
-    
-    await Listing.findById(id, (err, foundListing) =>{
-        if(!err){
-            foundListing?.comments?.forEach(comment => {
-                Comments.findByIdAndRemove(comment, (err)=>{
-                    if(err){
-                        console.log(err)
-                    }
-                })
-            })
-        }else{
-            console.log(err)
-        }
-    });
-
-    await Listing.findByIdAndRemove(id, (err)=>{
-        if(err){
-            console.log(err)
-        }
-    })
+    try {
+        const deletedListing = await listingService.deleteListingService(id);
+        res.status(200).json(deletedListing);
+    } catch (error) {
+        console.log(error)
+        res.status(409).json({message: error.message})
+    }    
 };

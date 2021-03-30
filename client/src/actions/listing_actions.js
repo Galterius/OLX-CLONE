@@ -1,26 +1,22 @@
 import { FETCH_ALL,FETCH_ONE ,CREATE, UPDATE, DELETE} from '../constants/actionTypes';
 import * as api from '../api/index';
 
-export const getListing = () => async(dispatch) =>{
+
+export const getListing = async() =>{
     try {
         const { data } = await api.fetchListings();
-
-        dispatch({
-            type: FETCH_ALL,
-            payload: data
-        })
+        return data
+        
     } catch (error) {
         console.log(error)
     }
 }
 
-export const getOneListing = (id) => async dispatch =>{
+export const getOneListing = async (id) =>{
     try {
         const { data } = await api.fetchOneListing(id)
-        dispatch({
-            type: FETCH_ONE,
-            payload: data
-        })
+        console.log(data);
+        return data;
     } catch (error) {
         console.log(error)
     }

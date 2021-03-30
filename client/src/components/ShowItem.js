@@ -30,6 +30,7 @@ export const ShowItem = (props) =>{
                     <button className="btn btn-success">Add Comment</button>
                 </form>
             </div>
+            {console.log(props.listing.comments)}
             {props.listing?.comments?.map(comment =>
                 <CommentItem
                     key={comment._id}

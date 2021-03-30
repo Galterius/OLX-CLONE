@@ -1,24 +1,23 @@
-const Listing = require('../models/listings');
-const Comments = require('../models/comments')
+const commentService = require('../service/CommetService')
 
 exports.createComment = async (req, res)=>{
-
-    const listing = await Listing.findById(req.body.listingId, async (err, listing) =>
-    {
-        const newComment = await Comments.create({...req.body})
-        newComment.save();
-        listing.comments.push(newComment);
-        listing.save();
-    })
-    res.status(200).json(listing)
+    const { listingId } = req.body
+    try {
+        const listing = await commentService.createCommentServie(listingId, req.body)
+        res.status(200).json(listing)
+    } catch (error) {
+        console.log(error)
+        res.status(409).json({message: "an error has occurred"})
+    }
+    
     
 }
 
-exports.deleteComment = async (req, res) => {
+exports.editComment = async (req, res) => {
+    const { comment_id } = req.params;
     try {
-        const { comment_id } = req.params;
-        const deleted = await Comments.findByIdAndRemove(comment_id)
-        res.status(200).json(deleted);
+        const updated = await commentService.editCommentServie(comment_id, req.body)
+        res.status(200).json(updated)
     } catch (error) {
         console.log(error)
         res.status(409).json({message: "an error has occurred"})
@@ -26,13 +25,11 @@ exports.deleteComment = async (req, res) => {
 
 }
 
-exports.editComment = async (req, res) => {
-    const { comment_id } = req.params;
-    console.log(comment_id);
-    console.log(req.body);
+exports.deleteComment = async (req, res) => {
     try {
         const { comment_id } = req.params;
-        await Comments.findByIdAndUpdate(comment_id, {...req.body})
+        const deleted = await commentService.deleteCommentService(comment_id)
+        res.status(200).json(deleted);
     } catch (error) {
         console.log(error)
         res.status(409).json({message: "an error has occurred"})
