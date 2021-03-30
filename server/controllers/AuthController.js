@@ -1,12 +1,14 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+//maybe create a service for the controller
+
 //database requirements
 const User = require('../models/user-models');
 
 exports.registerUser = async(req, res) =>{
     const { email, password, name } = req.body;
-    ;
+    
     try {
         const existingUser = await User.findOne({ email });
 
