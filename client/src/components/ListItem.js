@@ -7,7 +7,7 @@ export const ListItem = (props) =>{
         <div>
         <Link to={{
             pathname:`/listing/${props.id}`,
-        }} key={props._id}>{props.title}</Link>
+        }} key={props._id}> {props.title} </Link>
     </div>
     );
 };

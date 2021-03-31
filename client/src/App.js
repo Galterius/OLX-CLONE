@@ -11,26 +11,23 @@ import NewListing from './pages/NewListing'
 import Edit from './pages/Edit'
 
 import Register from './pages/Register';
-
+import { getListing } from './actions/listing_actions'
 import  NavigationBar  from './components/NavigationBar';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import * as api from './api/index';
 import { useListingStore } from './store/ListingContext'
 
 function App() {
   const listingStore = useListingStore();
 
-  // const [listings, setListing] = useState([])
-  // useEffect(() => {
-  //     fetchAllListings(); 
-  // },[])
+  useEffect(() => {
+      fetchAllListings(); 
+  },[])
 
-  // const fetchAllListings = async () =>{
-  //     const { data } = await api.fetchListings();
-  //     data.forEach(element => listingStore.addListings(element))
-  //     setListing(listingStore.listings)
-  //     console.log("1")
-  // }
+  const fetchAllListings = async () =>{
+      const data  = await getListing()
+      data.forEach(element => listingStore.addListings(element))
+      console.log("1")
+  }
 
 
   return (

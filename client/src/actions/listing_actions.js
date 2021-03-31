@@ -1,7 +1,6 @@
 import { FETCH_ALL,FETCH_ONE ,CREATE, UPDATE, DELETE} from '../constants/actionTypes';
 import * as api from '../api/index';
 
-
 export const getListing = async() =>{
     try {
         const { data } = await api.fetchListings();
@@ -22,16 +21,12 @@ export const getOneListing = async (id) =>{
     }
 }
 
-export const createListing = (formData, history) => async (dispatch) =>{
+export const createListing = async (formData) =>{
     try {
         const { data } = await api.newListing(formData);
 
-        dispatch({
-            type: CREATE, 
-            payload: data
-        })
-
-        history.push('/listings');
+        return data;
+        
     } catch (error) {
         console.log(error)
     }

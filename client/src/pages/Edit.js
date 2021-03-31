@@ -17,7 +17,7 @@ function EditListing({ match }){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(editListing(match.params.id, formData, history, state.creator))
+        //dispatch(editListing(match.params.id, formData, history, state.creator))
         listingStore.updateListing(formData)
     }
 

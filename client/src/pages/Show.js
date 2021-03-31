@@ -5,6 +5,7 @@ import { deleteListing, getOneListing } from '../actions/listing_actions'
 import { createComment, deleteComment, editComment } from '../actions/comment_actions'
 import { ShowItem } from '../components/ShowItem'
 import { useListingStore } from '../store/ListingContext'
+import { toJS } from 'mobx';
 //mobx
 
 //if you like to something then it passes a the params and you can get is those with match
@@ -26,7 +27,6 @@ function Listing({ match }) {
 
     const [isEdit, setIsEdit] = useState(false);
 
-    //retriving the data from Listings so we can skip an api call
     const [newComment, setComment] = useState(initialComment);
     const [listingState, setListingState] = useState(0)
     const [listing, setListing] = useState('');
@@ -36,12 +36,23 @@ function Listing({ match }) {
     useEffect(()=>{
         fetchOneListing();
         return () => setListingState('');
-    },[listingState]);
+    },[]);
 
     const fetchOneListing = async ()=>{
-        const selectedListing = await getOneListing(match.params.id)
-        listingStore.addOneListing(selectedListing);
-        setListing(selectedListing);
+        const temp = toJS(listingStore.selectedListing)
+
+        console.log(temp);
+        console.log(temp[0]?._id, match.params.id)
+
+        if ((temp != undefined) && (temp[0]?._id != match.params.id)) {
+            console.log("1")
+            const apiSelectedListing = await getOneListing(match.params.id)
+            listingStore.addOneListing(apiSelectedListing);
+            setListing(apiSelectedListing);
+        }else{
+            console.log(temp[0]);
+            setListing(temp[0]);
+        }
     }
     
 
@@ -87,7 +98,7 @@ function Listing({ match }) {
 
     return (
         <div>
-            {console.log(listing)}
+            {console.log(listingStore.selectedListing)}
             <ShowItem
                 listing={listing}
                 editedComment={editedComment}

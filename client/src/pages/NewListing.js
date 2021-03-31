@@ -47,7 +47,7 @@ function NewListing(){
 
             <div className="mb-3">
                 <label htmlFor="price" className="form-label">Price</label>
-                <input type="number" name="price" value={formData.price} onChange={handleChange}/>
+                <input type="number" min="1" name="price" value={formData.price} onChange={handleChange}/>
             </div>
 
             <div className="mb-3">
