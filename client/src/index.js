@@ -6,21 +6,22 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { reducers } from './reducer'
-import { ListingProvider } from './store/ListingContext'
+import { reducers } from './reducer';
+import { ListingProvider } from './store/ListingContext';
 //store is a globalized state where you can pull data from with redux so you don't have to go down on the component tree
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)))
+const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 ReactDOM.render(
-  <Provider store ={store}>
-  <React.StrictMode>
-    <ListingProvider>
-      <App />
-    </ListingProvider>
-    </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <ListingProvider>
+        <App />
+      </ListingProvider>
+    </React.StrictMode>
+    ,
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

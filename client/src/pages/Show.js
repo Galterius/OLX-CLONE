@@ -39,19 +39,14 @@ function Listing({ match }) {
     },[]);
 
     const fetchOneListing = async ()=>{
-        const temp = toJS(listingStore.selectedListing)
+        const oneListing = toJS(listingStore.selectedListing)
 
-        console.log(temp);
-        console.log(temp[0]?._id, match.params.id)
-
-        if ((temp != undefined) && (temp[0]?._id != match.params.id)) {
-            console.log("1")
+        if (oneListing[0]?._id != match.params.id) {
             const apiSelectedListing = await getOneListing(match.params.id)
             listingStore.addOneListing(apiSelectedListing);
             setListing(apiSelectedListing);
         }else{
-            console.log(temp[0]);
-            setListing(temp[0]);
+            setListing(oneListing[0]);
         }
     }
     
