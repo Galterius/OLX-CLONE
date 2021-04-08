@@ -5,7 +5,6 @@ export function createListingsStore() {
     listings: [],
     selectedListing: [],
     addListings(listing) {
-      //ugyan az a helyzet megnezem ha van populatelve
       this.listings.push(listing);
     },
     addOneListing(listing) {
@@ -15,6 +14,7 @@ export function createListingsStore() {
     updateListing(updatedListing) {
       //megnezhetem ha a kommenteknel csak id van vagy populatelve
       let foundIndex = this.listings.findIndex((listing) => listing._id == updatedListing.id);
+
       const oneListing = toJS(this.listings[foundIndex]);
       const returnedListing = Object.assign(oneListing, updatedListing);
       this.listings[foundIndex] = returnedListing;
@@ -22,11 +22,28 @@ export function createListingsStore() {
       const JSed = toJS(this.selectedListing[0]);
       const returnedTarget = Object.assign(JSed, updatedListing);
       this.selectedListing[0] = returnedTarget;
-      console.log(this.selectedListing);
+      
     },
     deleteListing(listingId) {
       //szimplan kitorlom mindkettobol
       this.listings = this.listings.filter((listing) => listing._id !== listingId);
+      this.selectedListing = [];
     },
+    addComment(){
+        //maceras mivel a mongo kesziti az _idkat
+    },
+    updateComment(editedComment){
+      const jsListing = toJS(this.selectedListing[0]);
+      let foundIndex = jsListing.comments.findIndex((comment) => comment._id == editedComment?.commentId);
+
+      const mergedComment = Object.assign(jsListing.comments[foundIndex], editedComment)
+      this.selectedListing[0].comments[foundIndex] = mergedComment
+
+      console.log(this.selectedListing);
+    },
+    deleteComment(commentId){
+      this.selectedListing.comments = this.selectedListing.comments.filter((comment) => comment._id !== commentId);
+
+    }
   };
 }

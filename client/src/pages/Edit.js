@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {useHistory, useLocation} from 'react-router-dom'
-import { useDispatch } from 'react-redux';
 import { editListing } from '../actions/listing_actions'
 import { useListingStore } from '../store/ListingContext'
 
@@ -13,11 +12,11 @@ function EditListing({ match }){
     const initialState = {id: match.params.id, title: state.title, price: state.price, image: state.image, description: state.description}
     const [formData, setFormData] = useState(initialState)
     const history = useHistory();
-    const dispatch = useDispatch();
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //dispatch(editListing(match.params.id, formData, history, state.creator))
+        //editListing(match.params.id, formData, history, state.creator)
         listingStore.updateListing(formData)
     }
 

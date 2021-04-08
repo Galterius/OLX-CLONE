@@ -30,31 +30,26 @@ export const createListing = async (formData) => {
   }
 };
 
-export const deleteListing = (id, listingCreator, history) => async (dispatch) => {
+export const deleteListing = async (id, listingCreator, history) =>{
   try {
     console.log(listingCreator);
-    await api.deleteListing(id, listingCreator);
-    dispatch({
-      type: DELETE,
-      payload: id,
-    });
+    const { data }=await api.deleteListing(id, listingCreator);
 
     history.push('/listings');
+
+    return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const editListing = (id, listing, history, listingCreator) => async (dispatch) => {
+export const editListing = async (id, listing, history, listingCreator) =>{
   try {
     const { data } = await api.editListing(id, listing, listingCreator);
 
-    dispatch({
-      type: UPDATE,
-      payload: data,
-    });
-
     history.push('/listings');
+    return data;
+    
   } catch (error) {
     console.log(error);
   }
