@@ -11,11 +11,12 @@ function NewListing(){
     const [formData, setFormData] = useState(initialState)
     const history = useHistory();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         //console.log(formData);
-        createListing(formData, history)
-        listingStore.addListings(formData)
+        const returnedListing = await createListing(formData, history)
+        listingStore.addListings(returnedListing)
+        console.log(returnedListing);
     }
 
     const handleChange = (e) => {

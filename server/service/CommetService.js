@@ -30,6 +30,7 @@ exports.editCommentServie = async(commentId, updatedComment)=>{
 
 exports.deleteCommentService = async(commentId)=>{
     try {
+        //the new comments have different id so i cannot delete them, the best thing i can do is check the length and if its no 24 then delete the last comment from that listing
         const deletedComment = await Comments.findByIdAndRemove(commentId);
         return deletedComment
     } catch (error) {

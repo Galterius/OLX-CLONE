@@ -1,7 +1,13 @@
 import React, {useState} from 'react'
 import { EditCommentItem } from './EditCommentItem'
+import { useObserver } from 'mobx-react-lite';
+import { useListingStore } from '../store/ListingContext'
+import { deleteComment } from '../actions/comment_actions'
+
+
 
 export const CommentItem = (props) => {
+    const listingStore = useListingStore();
     const [isEdit, setIsEdit] = useState(false);
 
     const switchMode = () => {
@@ -12,11 +18,12 @@ export const CommentItem = (props) => {
         e.preventDefault();
         const commentId = e.target.value;
         console.log("deleted Comment")
-        //deleteComment(commentId);
+        listingStore.deleteComment(commentId)
+        deleteComment(commentId);
         
     }
 
-    return(
+    return useObserver(()=>(
         <div>
             
             <div className="d-flex justify-content-center mb-3" key={props.comment._id}>
@@ -32,6 +39,7 @@ export const CommentItem = (props) => {
                         {!isEdit && (
                             <>
                                 <h6 className="card-subtitle mb-2 text-muted">{props.comment.author.commenterName}</h6>
+                                {/* {console.log(props.comment.author)} */}
                                 <p className="card-text">{props.comment.comment}</p>
                             </> 
                         )}
@@ -46,5 +54,5 @@ export const CommentItem = (props) => {
                 </div>
             </div>
         </div>
-    )
+    ));
 }

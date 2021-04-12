@@ -33,7 +33,7 @@ export const createListing = async (formData) => {
 export const deleteListing = async (id, listingCreator, history) =>{
   try {
     console.log(listingCreator);
-    const { data }=await api.deleteListing(id, listingCreator);
+    const { data } = await api.deleteListing(id, listingCreator);
 
     history.push('/listings');
 

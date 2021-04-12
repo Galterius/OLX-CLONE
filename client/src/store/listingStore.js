@@ -29,8 +29,15 @@ export function createListingsStore() {
       this.listings = this.listings.filter((listing) => listing._id !== listingId);
       this.selectedListing = [];
     },
-    addComment(){
-        //maceras mivel a mongo kesziti az _idkat
+    addComment(newComment){
+      //i generate a random id for the comment, so react won't yell at me for the keys
+      let randomId = Math.floor(Math.random() * 1000000000);
+      newComment._id = `${randomId}`
+      const jsListing = toJS(this.selectedListing[0].comments);
+      jsListing.push(newComment)
+
+      this.selectedListing[0].comments=jsListing
+      
     },
     updateComment(editedComment){
       const jsListing = toJS(this.selectedListing[0]);
@@ -42,8 +49,10 @@ export function createListingsStore() {
       console.log(this.selectedListing);
     },
     deleteComment(commentId){
-      this.selectedListing.comments = this.selectedListing.comments.filter((comment) => comment._id !== commentId);
-
+      console.log(commentId);
+      this.selectedListing[0].comments = this.selectedListing[0].comments.filter((comment) => comment._id !== commentId);
+      console.log(toJS(this.selectedListing[0]))
+      
     }
   };
 }

@@ -1,14 +1,18 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { CommentItem } from './CommentItem'
 import { useListingStore } from '../store/ListingContext'
 import { createComment} from '../actions/comment_actions'
 import { deleteListing} from '../actions/listing_actions'
+import { useObserver } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 
 
 export const ShowItem = (props) =>{
     const user = JSON.parse(localStorage.getItem('profile'))
     const listingStore = useListingStore();
+    const history = useHistory();
+
 
     const initialComment = {
         author:{
@@ -23,8 +27,10 @@ export const ShowItem = (props) =>{
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        console.log(newComment)
-        //createComment(props.listingId, newComment)
+        const temp = await createComment(props.listingId, newComment)
+        console.log(temp);
+        listingStore.addComment(newComment)
+        
     }
     
     const handleChange = async (e) =>{
@@ -34,11 +40,11 @@ export const ShowItem = (props) =>{
     const handleDeleteClick = async (e) =>{
         e.preventDefault();
         console.log(props.listingId)
-        //deleteListing(props.listingId, listing?.creator, history);
-        //listingStore.deleteListing(props.listingId);
+        deleteListing(props.listingId, props.listing?.creator, history);
+        listingStore.deleteListing(props.listingId);
     }
     
-    return(
+    return useObserver(()=>(
         <div>
             <h3 >{props.listing.title}</h3>
             <img alt ="" src={props.listing.image} />
@@ -62,8 +68,8 @@ export const ShowItem = (props) =>{
                     <button className="btn btn-success">Add Comment</button>
                 </form>
             </div>
-            {console.log(props.listing.comments)}
-            {props.listing?.comments?.map(comment =>
+            {console.log(toJS(listingStore.selectedListing[0])?.comments)}
+            {toJS(listingStore.selectedListing[0])?.comments.map(comment =>
                 <CommentItem
                     key={comment._id}
                     comment={comment}
@@ -72,5 +78,5 @@ export const ShowItem = (props) =>{
                 />
             )}
         </div>
-    )
+    ));
 };

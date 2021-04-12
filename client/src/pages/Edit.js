@@ -16,7 +16,7 @@ function EditListing({ match }){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //editListing(match.params.id, formData, history, state.creator)
+        editListing(match.params.id, formData, history, state.creator)
         listingStore.updateListing(formData)
     }
 

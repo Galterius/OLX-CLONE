@@ -1,37 +1,32 @@
 import { CREATE, UPDATE, DELETE } from '../constants/actionTypes';
 import * as api from '../api/index';
 
-export const createComment = (listingId, comment) => async (dispatch) => {
+export const createComment = async (listingId, comment) => {
   try {
-    const { data } = await api.createComment(listingId, comment);
-    dispatch({
-      type: CREATE,
-      payload: data,
-    });
+    const  { data }   = await api.createComment(listingId, comment);
+    return data;
+
   } catch (error) {
     console.log(error);
   }
 };
 
-export const editComment = (commentId, comment) => async (dispatch) => {
+export const editComment = async (commentId, comment)  => {
   try {
-    const { data } = await api.editComment(commentId, comment);
-    dispatch({
-      type: UPDATE,
-      payload: data,
-    });
+    console.log(`commentId: ${commentId},comment:${comment} `)
+    const { data }  = await api.editComment(commentId, comment);
+    return data;
+
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteComment = (commentId) => async (dispatch) => {
+export const deleteComment = async (commentId) => {
   try {
     const { data } = await api.deleteComment(commentId);
-    dispatch({
-      type: DELETE,
-      payload: data,
-    });
+    return data
+    
   } catch (error) {
     console.log(error);
   }
