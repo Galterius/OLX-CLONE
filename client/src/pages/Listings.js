@@ -10,7 +10,6 @@ function Listings() {
   return useObserver(() => (
     <div>
       <ul>
-        {listingStore.listings.map((listing) => console.log(listing))}
         {listingStore.listings.map((listing) => (
           <ListItem key={listing._id} title={listing.title} id={listing._id} />
         ))}

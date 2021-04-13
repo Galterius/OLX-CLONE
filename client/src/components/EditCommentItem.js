@@ -3,7 +3,6 @@ import { useListingStore } from '../store/ListingContext'
 import { useObserver } from 'mobx-react-lite';
 import { editComment} from '../actions/comment_actions'
 
-import { toJS } from 'mobx';
 
 export const EditCommentItem = (props) =>{
     const initialItem = {commentId: props.commentId, comment: ''};

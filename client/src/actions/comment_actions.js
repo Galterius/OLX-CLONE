@@ -1,4 +1,3 @@
-import { CREATE, UPDATE, DELETE } from '../constants/actionTypes';
 import * as api from '../api/index';
 
 export const createComment = async (listingId, comment) => {

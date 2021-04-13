@@ -1,4 +1,3 @@
-import { FETCH_ALL, FETCH_ONE, CREATE, UPDATE, DELETE } from '../constants/actionTypes';
 import * as api from '../api/index';
 
 export const getListing = async () => {

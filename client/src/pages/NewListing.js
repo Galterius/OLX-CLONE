@@ -13,10 +13,9 @@ function NewListing(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //console.log(formData);
-        const returnedListing = await createListing(formData, history)
+        const returnedListing = await createListing(formData)
         listingStore.addListings(returnedListing)
-        console.log(returnedListing);
+        history.push(`/listing/${returnedListing._id}`)
     }
 
     const handleChange = (e) => {

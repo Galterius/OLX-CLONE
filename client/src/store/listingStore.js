@@ -22,7 +22,6 @@ export function createListingsStore() {
       const JSed = toJS(this.selectedListing[0]);
       const returnedTarget = Object.assign(JSed, updatedListing);
       this.selectedListing[0] = returnedTarget;
-      
     },
     deleteListing(listingId) {
       //szimplan kitorlom mindkettobol
@@ -30,14 +29,10 @@ export function createListingsStore() {
       this.selectedListing = [];
     },
     addComment(newComment){
-      //i generate a random id for the comment, so react won't yell at me for the keys
-      let randomId = Math.floor(Math.random() * 1000000000);
-      newComment._id = `${randomId}`
       const jsListing = toJS(this.selectedListing[0].comments);
       jsListing.push(newComment)
 
-      this.selectedListing[0].comments=jsListing
-      
+      this.selectedListing[0].comments = jsListing
     },
     updateComment(editedComment){
       const jsListing = toJS(this.selectedListing[0]);

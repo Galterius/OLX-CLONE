@@ -28,8 +28,7 @@ export const ShowItem = (props) =>{
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const temp = await createComment(props.listingId, newComment)
-        console.log(temp);
-        listingStore.addComment(newComment)
+        listingStore.addComment(temp)
         
     }
     

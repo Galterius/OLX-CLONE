@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import { useDispatch } from 'react-redux';
 
 import {signup, signin} from '../actions/auth'
+import { authReducer } from '../reducer/auth'
+import { AUTH } from '../constants/actionTypes'
 
 const initialState = {name: '', email: '', password: ''}
 
@@ -12,7 +13,6 @@ function Register(){
 
     const[isSignup, setIsSignup] = useState(false);
     const history = useHistory();
-    const dispatch = useDispatch();
 
     const switchMode = () =>{
         setIsSignup((prevIsSignup)=> !prevIsSignup)
@@ -25,7 +25,12 @@ function Register(){
         const token = res?.tokenId;
 
         try {
-            dispatch({type: 'AUTH', data: {result, token} });
+            const action = {
+                type: AUTH
+            }
+
+            authReducer({result, token}, action)
+
             history.push('/listings')
         } catch (error) {
             console.log(error);
@@ -42,9 +47,9 @@ function Register(){
         console.log(formData)
 
         if(isSignup){
-            dispatch(signup(formData, history))
+            signup(formData, history)
         }else{
-            dispatch(signin(formData, history))
+            signin(formData, history)
         }
 
         // console.log(formData);

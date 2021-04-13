@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css'
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
+import { authReducer } from '../reducer/auth'
 import decod from 'jwt-decode'
+import { LOGOUT } from '../constants/actionTypes';
 
 function NavigationBar() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
@@ -40,7 +40,13 @@ function NavigationBar() {
   }, [location]);//when the location changes we set the user so it will update the navbar
 
   const logout = () =>{
-    dispatch ({ type: 'LOGOUT'});
+
+    const action = {
+      type: LOGOUT
+    }
+
+    authReducer(undefined, action)
+
     history.push('/listings')
     setUser(null);
   }

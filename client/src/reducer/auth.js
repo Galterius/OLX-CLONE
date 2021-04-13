@@ -1,17 +1,18 @@
 import {AUTH, LOGOUT} from '../constants/actionTypes';
 
-//reducers are  function that accept a state and an action
-const authReducer = (state = {authData: null}, action)=> {
+
+export const authReducer = (data = {authData: null}, action)=> {
     switch (action.type) {
         case AUTH:
             //storing it in the local storage so even if we refresh the browser will not log us out
-            localStorage.setItem('profile', JSON.stringify({...action?.data }));
-            return {...state, authData: action?.data};
+            localStorage.setItem('profile', JSON.stringify({...data}));
+            return {...data, authData: data};
+            
         case LOGOUT:
             localStorage.clear();
-            return {...state, authData: null};
+            return {...data, authData: null};
         default:
-            return state;
+            return data;
     }
 };
 
