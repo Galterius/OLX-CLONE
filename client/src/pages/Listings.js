@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ListItem } from '../components/ListItem';
 import { useListingStore } from '../store/ListingContext';
-import { getListing } from '../actions/listing_actions';
 import { useObserver } from 'mobx-react-lite';
 
 function Listings() {

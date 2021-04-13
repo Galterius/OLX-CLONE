@@ -12,8 +12,7 @@ exports.registerUser = async(req, res) =>{
         if(registeredUser === "User already exists") {
             res.status(400).json({message: "User already exists"})
         }
-        
-        const result = registeredUser;
+        const result = {id: registeredUser._id, email: registeredUser.email, name: registeredUser.name};
 
         const token = jwt.sign({ email: result.email, id: result._id }, 'test', {expiresIn: "1h"})
         
@@ -41,7 +40,10 @@ exports.loginUser = async (req, res)=>{
 
         //the secret token should be stored in an enviroment var or somewhere secure, but it will be good enough now
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', {expiresIn: "1h"})
-        res.status(200).json({ result: existingUser, token})
+
+        const result = {id: existingUser._id, email: existingUser.email, name: existingUser.name}
+
+        res.status(200).json({ result: result, token})
     } catch (error) {
         res.status(500).json({message: "Something went wrong"})
         console.log(error)
