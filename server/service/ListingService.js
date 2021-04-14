@@ -1,16 +1,19 @@
 const Listing = require('../models/listings');
 const Comments = require('../models/comments');
+const listingMapper = require('../mappers/ListingMapper')
 
+
+//here i should  comprass the image
 exports.getListingsService = async () =>{
     const listings = await Listing.find({})
-    return listings
+    return listingMapper.allListingsMapper(listings);
 };
 
 exports.createListingService = async(data, userId) =>{
     const listing = new Listing({...data, creator: userId, createdAt: new Date().toISOString()});
     try {
         await listing.save();
-        return listing;
+        return listingMapper.oneListingMapper(listing)
     } catch (error) {
         console.log(error)
         return error.message;
@@ -20,7 +23,8 @@ exports.createListingService = async(data, userId) =>{
 exports.getOneListingService = async(listingId) =>{
     try {
         const listing = await Listing.findById(listingId).populate("comments").exec()
-        return listing
+        return listingMapper.oneListingMapper(listing)
+
     } catch (error) {
         console.log(error)
         return error.message;
@@ -30,7 +34,8 @@ exports.getOneListingService = async(listingId) =>{
 exports.updateListingService = async(id, updatedListing) =>{
     try {
         const listing = Listing.findByIdAndUpdate(id, {...updatedListing})
-        return listing
+        return listingMapper.oneListingMapper(listing)
+
     } catch (error) {
         console.log(error)
         return error.message;
@@ -54,7 +59,8 @@ exports.deleteListingService = async(id) =>{
         });
 
         const deletedListing = await Listing.findByIdAndRemove(id);
-        return deletedListing;
+        return listingMapper.oneListingMapper(deletedListing);
+
     } catch (error) {
         console.log(error)
         return error.message;

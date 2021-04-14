@@ -3,9 +3,6 @@ import {useHistory, useLocation} from 'react-router-dom'
 import { editListing } from '../actions/listing_actions'
 import { useListingStore } from '../store/ListingContext'
 
-
-//!!!!!!!WARNING: HISTORY IS NOT WORKING POSSIBLY BECAUSE I USED STATE INSTAED OF AN API GET
-
 function EditListing({ match }){
     const listingStore = useListingStore();
     const { state } = useLocation()

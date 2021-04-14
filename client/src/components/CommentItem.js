@@ -39,12 +39,11 @@ export const CommentItem = (props) => {
                         {!isEdit && (
                             <>
                                 <h6 className="card-subtitle mb-2 text-muted">{props.comment.author.commenterName}</h6>
-                                {/* {console.log(props.comment.author)} */}
                                 <p className="card-text">{props.comment.comment}</p>
                             </> 
                         )}
 
-                    {(props.user?.result?.googleId === props.comment.author.commenterId || props.user?.result?._id === props.comment.author.commenterId) && (
+                    {(props.user?.result?._id === props.comment.author.commenterId) && (
                         <div> 
                             <button className="card-link btn btn-primary" onClick={switchMode}>{isEdit ? 'Cancel Edit': 'Edit Comment'}</button>
                             <button className="card-link btn btn-danger" value={props.comment._id} onClick={handleDeleteComment}>Delet</button>

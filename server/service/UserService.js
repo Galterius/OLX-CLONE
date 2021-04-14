@@ -22,7 +22,8 @@ exports.registerUser = async(userEmail, userPassword, userName) =>{
 
 exports.loginUser = async (userEmail, userPassword) =>{
     try {
-        const existingUser = await User.findOne({ email: userEmail });
+        const existingUser = await User.findOne({ email: userEmail }).select('+password');
+        
         if(!existingUser){
             return "User doesn't exists"
         }

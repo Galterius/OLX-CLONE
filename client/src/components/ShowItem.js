@@ -16,7 +16,7 @@ export const ShowItem = (props) =>{
 
     const initialComment = {
         author:{
-            commenterId: user?.result?._id || user?.result?.googleId, 
+            commenterId: user?.result?._id, 
             commenterName: user?.result?.name
         },
         listingId: props.listingId,
@@ -61,13 +61,18 @@ export const ShowItem = (props) =>{
             </div>
             )}
 
-            <div className="d-flex justify-content-center mb-3">
-                <form onSubmit={handleSubmit}>
-                    <input type="text" name="comment" placeholder="Ask Something..." onChange={handleChange}/>
-                    <button className="btn btn-success">Add Comment</button>
-                </form>
-            </div>
-            {console.log(toJS(listingStore.selectedListing[0])?.comments)}
+            {(user) && 
+            (
+                <div className="d-flex justify-content-center mb-3">
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" name="comment" placeholder="Ask Something..." onChange={handleChange}/>
+                        <button className="btn btn-success">Add Comment</button>
+                    </form>
+                </div>
+            ) || (
+                <p>Log in to write a comment</p>
+            )}
+
             {toJS(listingStore.selectedListing[0])?.comments.map(comment =>
                 <CommentItem
                     key={comment._id}

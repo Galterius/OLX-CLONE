@@ -9,16 +9,13 @@ import { useObserver } from 'mobx-react-lite';
 
 //if you like to something then it passes a the params and you can get is those with match
 function Listing({ match }) {
-    const user = JSON.parse(localStorage.getItem('profile'))
     const listingStore = useListingStore();
     
-    const [listingState, setListingState] = useState(0)
     const [listing, setListing] = useState('');
 
 
     useEffect(()=>{
         fetchOneListing();
-        return () => setListingState('');
     },[]);
 
     const fetchOneListing = async ()=>{
@@ -27,7 +24,6 @@ function Listing({ match }) {
         if (oneListing[0]?._id != match.params.id) {
             const apiSelectedListing = await getOneListing(match.params.id)
             listingStore.addOneListing(apiSelectedListing);
-            console.log("HIHI")
             setListing(apiSelectedListing);
             
         }else{

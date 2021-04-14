@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 
-import {signup, signin} from '../actions/auth'
+import {signup, signin, googleSignIn} from '../actions/auth'
 import { authReducer } from '../reducer/auth'
 import { AUTH } from '../constants/actionTypes'
 
@@ -25,13 +25,8 @@ function Register(){
         const token = res?.tokenId;
 
         try {
-            const action = {
-                type: AUTH
-            }
-
-            authReducer({result, token}, action)
-
-            history.push('/listings')
+            googleSignIn(token, history);
+            
         } catch (error) {
             console.log(error);
         }

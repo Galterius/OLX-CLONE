@@ -26,3 +26,4 @@ export const deleteComment = (commentId) => API.delete(`/api/listings/:id/commen
 
 export const singIn = (formData) => API.post('user/login', formData);
 export const singUp = (formData) => API.post('user/register', formData);
+export const googleSignIn = (authData) => API.post('user/gsignin', authData);
