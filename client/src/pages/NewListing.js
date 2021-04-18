@@ -1,11 +1,12 @@
-import {useState} from 'react'
+import {useRef, useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import { createListing } from '../actions/listing_actions'
 import { useListingStore } from '../store/ListingContext'
 
 function NewListing(){
     const listingStore = useListingStore();
-    const initialState = { title: '', price: '', image: '', description:'', name:'' }
+    const initialState = { title: '', price: '', image: File, description:'', name:'' }
+    const form = useRef(null);
 
     const user = JSON.parse(localStorage.getItem('profile'))
     const [formData, setFormData] = useState(initialState)
@@ -13,14 +14,24 @@ function NewListing(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const returnedListing = await createListing(formData)
-        listingStore.addListings(returnedListing)
-        history.push(`/listing/${returnedListing._id}`)
+        
+        const data = new FormData(form.current)
+        data.append('name', user?.result?.name)
+        const returnedListing = await createListing(data)
+        //listingStore.addListings(returnedListing)
+        //history.push(`/listing/${returnedListing._id}`)
     }
 
     const handleChange = (e) => {
         //destracture the formData so we those where the target.name matches the key in the object
-        setFormData({ ...formData, [e.target.name]: e.target.value, name: user?.result?.name});
+        setFormData({ ...formData, [e.target.name]: e.target.value, name: user?.result?.name, });
+        
+    }
+
+    const handleImageChange = (e) =>{
+        //destracture the formData so we those where the target.name matches the key in the object
+        setFormData({ ...formData, image: e.target.files[0]});
+        
         
     }
 
@@ -36,10 +47,11 @@ function NewListing(){
         <div className="row">
             <div className="col-6 offset-3">
             <h3 className="text-center">New Listing</h3>
-            <form noValidate className="validated" onSubmit={handleSubmit}>
+
+            <form noValidate className="validated" onSubmit={handleSubmit} encType="multipart/form-data" ref={form}>
             
             <div className="mb-3">
-                <label htmlFor="titile" className="form-label">Title</label>
+                <label htmlFor="title" className="form-label">Title</label>
                 <input type="text" name="title" value={formData.title} onChange={handleChange}/>
             </div>
 
@@ -49,8 +61,8 @@ function NewListing(){
             </div>
 
             <div className="mb-3">
-                <label htmlFor="price" className="form-label">Image</label>
-                <input type="text" name="image" value={formData.image} onChange={handleChange}/>
+                <label htmlFor="image" className="form-label">Choose an Image</label>
+                <input type="file" name="image" onChange={handleImageChange}/>
             </div>
             
             <div className="mb-3">

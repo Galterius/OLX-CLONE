@@ -12,7 +12,7 @@ API.interceptors.request.use((req) => {
 
 export const fetchListings = () => API.get('/api/listings');
 export const fetchOneListing = (id) => API.get(`/api/listings/${id}`);
-export const newListing = (listing) => API.post('/api/listings', listing);
+export const newListing = (listing) => API.post('/api/listings', listing, {headers: {'Content-Type': 'multipart/form-data'}});
 export const editListing = (id, updateList, listingCreator) =>
   API.put(`/api/listings/${id}`, updateList, { params: { listingCreator } });
 export const deleteListing = (id, listingCreator) =>

@@ -2,7 +2,6 @@ const Listing = require('../models/listings');
 const Comments = require('../models/comments');
 const listingMapper = require('../mappers/ListingMapper')
 
-
 //here i should  comprass the image
 exports.getListingsService = async () =>{
     const listings = await Listing.find({})
@@ -10,7 +9,7 @@ exports.getListingsService = async () =>{
 };
 
 exports.createListingService = async(data, userId) =>{
-    const listing = new Listing({...data, creator: userId, createdAt: new Date().toISOString()});
+    //const listing = new Listing({...data, creator: userId, createdAt: new Date().toISOString()});
     try {
         await listing.save();
         return listingMapper.oneListingMapper(listing)

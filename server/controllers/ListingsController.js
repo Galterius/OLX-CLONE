@@ -6,7 +6,8 @@ exports.getListings = async (req, res) => {
 };
 
 exports.createListing = async (req,res) =>{
-    
+    //console.log(req.file)
+    console.log(req.file)
     try {
         const listing = await listingService.createListingService(req.body, req.userId)
         res.status(200).json(listing)
