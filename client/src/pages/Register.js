@@ -59,6 +59,7 @@ function Register(){
         <div className="row">
             <div className="col-6 offset-3">
             <h3 className="text-center">{isSignup ? 'Register' : 'Sign In'}</h3>
+            
             <form noValidate className="validated-form" onSubmit={handleSubmit}>
             
             {isSignup && (

@@ -22,6 +22,7 @@ export const signin = async (formData, history) => {
 
 export const signup = async (formData, history) => {
   try {
+    console.log(formData);
     const { data } = await api.singUp(formData);
 
     const action = {

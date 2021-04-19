@@ -46,10 +46,11 @@ export const ShowItem = (props) =>{
     return useObserver(()=>(
         <div>
             <h3 >{props.listing.title}</h3>
-            <img alt ="" src={props.listing.image} />
+            {console.log(props.listing?.image?.toString())}
+            <img alt ="" src={process.env.PUBLIC_URL + props.listing?.image?.toString()}/>
             <p>{props.listing.description}</p>
 
-            {(user?.result?.googleId === props.listing?.creator || user?.result?._id === props.listing?.creator) && (
+            {(user?.result?.id === props.listing?.creator) && (
             <div>
                 <button className="btn btn-danger" onClick={handleDeleteClick}>Delete listing</button>
                 <Link to={{
@@ -72,7 +73,7 @@ export const ShowItem = (props) =>{
             ) || (
                 <p>Log in to write a comment</p>
             )}
-
+            {console.log(toJS(listingStore.selectedListing[0])?.comments)}
             {toJS(listingStore.selectedListing[0])?.comments.map(comment =>
                 <CommentItem
                     key={comment._id}

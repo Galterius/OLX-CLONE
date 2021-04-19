@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser')
+// const fileUpload = require('express-fileupload')
 
 const expressError = require('./utils/ExpressError');
 const { listingSchima } = require('./schemas.js')
@@ -27,7 +28,8 @@ db.once("open", ()=>{
 const app = express();
 
 app.use(cors())
-
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true}))
 
 const validateListing = (req, res, next)=>{

@@ -9,6 +9,7 @@ const { Config } = require('../config/config')
 
 exports.registerUser = async(req, res) =>{
     const { email, password, name } = req.body;
+    console.log(email, password, name);
     
     try {
         const registeredUser = await userService.registerUser(email, password, name)
@@ -50,7 +51,7 @@ exports.loginUser = async (req, res)=>{
 
         res.status(200).json({ result: result, token})
     } catch (error) {
-        res.status(500).json({message: "Something went wrong"})
+        return res.status(500).json({message: "Something went wrong"})
         console.log(error)
     }
 }

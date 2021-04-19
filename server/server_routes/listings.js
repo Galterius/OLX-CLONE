@@ -7,24 +7,26 @@ const listingController = require('../controllers/ListingsController');
 
 const multer = require('multer')
 
-//define storage
-//WITH STORAGE ITS NOT WROKING AND I DONT KNOW WHY
+// //define storage
+// //WITH STORAGE ITS NOT WROKING AND I DONT KNOW WHY
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, `/tmp/my-uploads/${req.body.name}`)
+      cb(null, 'C:/Users/norbe/Desktop/NegyedEv/Learning React/client/public/uploads')
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
+      cb(null,  Date.now() + '-'  + file.fieldname + file.originalname )
     }
   })
-   
-  var upload = multer({ dest: 'uploads'})
+
+const upload = multer({ 
+    storage: storage
+})
 
 
 
 router.get('/listings', catchAsync(listingController.getListings));
 
-router.post('/listings', auth, upload.single('image'), catchAsync(listingController.createListing));
+router.post('/listings', auth,upload.single('image'), catchAsync(listingController.createListing));
 
 router.get('/listings/:id', catchAsync(listingController.getOneListing));
 

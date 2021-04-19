@@ -1,4 +1,6 @@
 const listingService = require('../service/ListingService')
+const fs = require('fs');
+
 
 exports.getListings = async (req, res) => {
     const listings = await listingService.getListingsService()
@@ -6,9 +8,10 @@ exports.getListings = async (req, res) => {
 };
 
 exports.createListing = async (req,res) =>{
-    //console.log(req.file)
-    console.log(req.file)
+    
     try {
+        req.body.image =  `/uploads/${req.file.filename}`
+
         const listing = await listingService.createListingService(req.body, req.userId)
         res.status(200).json(listing)
     } catch (error) {

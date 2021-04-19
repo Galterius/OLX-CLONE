@@ -18,8 +18,9 @@ function NewListing(){
         const data = new FormData(form.current)
         data.append('name', user?.result?.name)
         const returnedListing = await createListing(data)
-        //listingStore.addListings(returnedListing)
-        //history.push(`/listing/${returnedListing._id}`)
+        console.log(returnedListing)
+        listingStore.addListings(returnedListing)
+        history.push(`/listing/${returnedListing._id}`)
     }
 
     const handleChange = (e) => {

@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 const ListingSchema = new Schema({
     title: String,
     price: Number,
-    image: String,
+    image: [
+        {
+            type: String,
+            required: true
+        }
+    ],
     description: String,
     creator: String,
     name: String,

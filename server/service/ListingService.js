@@ -9,7 +9,7 @@ exports.getListingsService = async () =>{
 };
 
 exports.createListingService = async(data, userId) =>{
-    //const listing = new Listing({...data, creator: userId, createdAt: new Date().toISOString()});
+    const listing = new Listing({...data, creator: userId, createdAt: new Date().toISOString()});
     try {
         await listing.save();
         return listingMapper.oneListingMapper(listing)

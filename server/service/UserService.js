@@ -4,7 +4,7 @@ const User = require('../models/user-models');
 
 exports.registerUser = async(userEmail, userPassword, userName) =>{
     try {
-        
+        console.log(userEmail, userPassword, userName)
         const existingUser = await User.findOne({ email: userEmail });
         if(existingUser){
             return "User already exists"
@@ -34,7 +34,10 @@ exports.loginUser = async (userEmail, userPassword) =>{
             return "Invalid email or password"
         }
         
+        console.log(existingUser);
+
         return (existingUser);
+        
     } catch (error) {
         console.log(error);
         return "Something went wrong";
