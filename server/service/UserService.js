@@ -2,44 +2,52 @@ const bcrypt = require('bcryptjs');
 //database requirements
 const User = require('../models/user-models');
 
-exports.registerUser = async(userEmail, userPassword, userName) =>{
-    try {
-        console.log(userEmail, userPassword, userName)
-        const existingUser = await User.findOne({ email: userEmail });
-        if(existingUser){
-            return "User already exists"
-        }
-
-        const hashedPassword = await bcrypt.hash(userPassword, 12);
-        const result = await User.create({name: userName, email: userEmail, password: hashedPassword})
-
-        return (result)
-    } catch (error) {
-        console.log(error)
-        return error
+exports.registerUser = async (userEmail, userPassword, userName) => {
+  try {
+    console.log(userEmail, userPassword, userName);
+    const existingUser = await User.findOne({ email: userEmail });
+    if (existingUser) {
+      return 'User already exists';
     }
-}
 
-exports.loginUser = async (userEmail, userPassword) =>{
-    try {
-        const existingUser = await User.findOne({ email: userEmail }).select('+password');
-        
-        if(!existingUser){
-            return "User doesn't exists"
-        }
+    const hashedPassword = await bcrypt.hash(userPassword, 12);
+    const result = await User.create({
+      name: userName,
+      email: userEmail,
+      password: hashedPassword,
+    });
 
-        const isPasswordCorrect = await bcrypt.compare(userPassword, existingUser.password);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
-        if(!isPasswordCorrect){
-            return "Invalid email or password"
-        }
-        
-        console.log(existingUser);
+exports.loginUser = async (userEmail, userPassword) => {
+  try {
+    const existingUser = await User.findOne({ email: userEmail }).select(
+      '+password',
+    );
 
-        return (existingUser);
-        
-    } catch (error) {
-        console.log(error);
-        return "Something went wrong";
+    if (!existingUser) {
+      return "User doesn't exists";
     }
-}
+
+    const isPasswordCorrect = await bcrypt.compare(
+      userPassword,
+      existingUser.password,
+    );
+
+    if (!isPasswordCorrect) {
+      return 'Invalid email or password';
+    }
+
+    console.log(existingUser);
+
+    return existingUser;
+  } catch (error) {
+    console.log(error);
+    return 'Something went wrong';
+  }
+};
