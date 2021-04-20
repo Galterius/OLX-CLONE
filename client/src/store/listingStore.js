@@ -28,26 +28,29 @@ export function createListingsStore() {
       this.listings = this.listings.filter((listing) => listing._id !== listingId);
       this.selectedListing = [];
     },
-    addComment(newComment){
+    addComment(newComment) {
       const jsListing = toJS(this.selectedListing[0].comments);
-      jsListing.push(newComment)
+      jsListing.push(newComment);
 
-      this.selectedListing[0].comments = jsListing
+      this.selectedListing[0].comments = jsListing;
     },
-    updateComment(editedComment){
+    updateComment(editedComment) {
       const jsListing = toJS(this.selectedListing[0]);
-      let foundIndex = jsListing.comments.findIndex((comment) => comment._id == editedComment?.commentId);
+      let foundIndex = jsListing.comments.findIndex(
+        (comment) => comment._id == editedComment?.commentId,
+      );
 
-      const mergedComment = Object.assign(jsListing.comments[foundIndex], editedComment)
-      this.selectedListing[0].comments[foundIndex] = mergedComment
+      const mergedComment = Object.assign(jsListing.comments[foundIndex], editedComment);
+      this.selectedListing[0].comments[foundIndex] = mergedComment;
 
       console.log(this.selectedListing);
     },
-    deleteComment(commentId){
+    deleteComment(commentId) {
       console.log(commentId);
-      this.selectedListing[0].comments = this.selectedListing[0].comments.filter((comment) => comment._id !== commentId);
-      console.log(toJS(this.selectedListing[0]))
-      
-    }
+      this.selectedListing[0].comments = this.selectedListing[0].comments.filter(
+        (comment) => comment._id !== commentId,
+      );
+      console.log(toJS(this.selectedListing[0]));
+    },
   };
 }

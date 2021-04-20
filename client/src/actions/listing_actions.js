@@ -29,7 +29,7 @@ export const createListing = async (formData) => {
   }
 };
 
-export const deleteListing = async (id, listingCreator, history) =>{
+export const deleteListing = async (id, listingCreator, history) => {
   try {
     console.log(listingCreator);
     const { data } = await api.deleteListing(id, listingCreator);
@@ -42,13 +42,12 @@ export const deleteListing = async (id, listingCreator, history) =>{
   }
 };
 
-export const editListing = async (id, listing, history, listingCreator) =>{
+export const editListing = async (id, listing, history, listingCreator) => {
   try {
     const { data } = await api.editListing(id, listing, listingCreator);
 
     history.push('/listings');
     return data;
-    
   } catch (error) {
     console.log(error);
   }
