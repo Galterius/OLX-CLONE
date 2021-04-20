@@ -49,10 +49,8 @@ export const ShowItem = (props) =>{
             <h3 >{props.listing.title}</h3>
             { console.log(props.imageURL) }
             
-                <Carousel images={props.imageURL}/>
+            <Carousel images={props.imageURL}/>
             
-            
-
             {/* <img alt ="" src={process.env.PUBLIC_URL + props.listing?.image?.toString()}/> */}
             <p>{props.listing.description}</p>
 
