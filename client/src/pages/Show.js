@@ -5,15 +5,14 @@ import { useListingStore } from '../store/ListingContext'
 import { toJS } from 'mobx';
 import { useObserver } from 'mobx-react-lite';
 
-//mobx
 
+let initialS = []
 //if you like to something then it passes a the params and you can get is those with match
 function Listing({ match }) {
     const listingStore = useListingStore();
-    
     const [listing, setListing] = useState('');
-
-
+    const [imageURLS, setImageUrl] = useState(initialS)
+    
     useEffect(()=>{
         fetchOneListing();
     },[]);
@@ -23,21 +22,30 @@ function Listing({ match }) {
 
         if (oneListing[0]?._id != match.params.id) {
             const apiSelectedListing = await getOneListing(match.params.id)
-            listingStore.addOneListing(apiSelectedListing);
+            await listingStore.addOneListing(apiSelectedListing);
             setListing(apiSelectedListing);
-            
+            fillUrls(apiSelectedListing)
         }else{
-            setListing(oneListing[0]);
+            await setListing(oneListing[0]);
+            fillUrls(oneListing[0])
         }
+    }
+
+    const fillUrls = (plisting) =>{
+        initialS=[]
+        plisting?.image?.forEach(img => {
+            initialS.push({src: `${img}`})
+        })
+        setImageUrl(initialS)
     }
     
     return useObserver(()=>(
         <div>
-            {console.log(listingStore.selectedListing)}
+            {console.log(imageURLS)}
             <ShowItem
                 listing={listing}
                 listingId={match.params.id}
-                
+                imageURL = {imageURLS}
             />
         </div>
     ));

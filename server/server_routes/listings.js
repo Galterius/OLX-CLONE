@@ -26,7 +26,7 @@ const upload = multer({
 
 router.get('/listings', catchAsync(listingController.getListings));
 
-router.post('/listings', auth,upload.single('image'), catchAsync(listingController.createListing));
+router.post('/listings', auth,upload.array('image', 12), catchAsync(listingController.createListing));
 
 router.get('/listings/:id', catchAsync(listingController.getOneListing));
 

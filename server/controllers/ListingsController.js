@@ -10,7 +10,12 @@ exports.getListings = async (req, res) => {
 exports.createListing = async (req,res) =>{
     
     try {
-        req.body.image =  `/uploads/${req.file.filename}`
+        let images = []
+        req.files.forEach((image) => {
+            images.push(`/uploads/${image.filename}`)
+        })
+        
+        req.body.image = images
 
         const listing = await listingService.createListingService(req.body, req.userId)
         res.status(200).json(listing)

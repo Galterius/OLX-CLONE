@@ -1,10 +1,12 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { CommentItem } from './CommentItem'
 import { useListingStore } from '../store/ListingContext'
 import { createComment} from '../actions/comment_actions'
 import { deleteListing} from '../actions/listing_actions'
 import { useObserver } from 'mobx-react-lite';
+import Carousel from 'react-gallery-carousel';
+import 'react-gallery-carousel/dist/index.css';
 import { toJS } from 'mobx';
 
 
@@ -12,7 +14,6 @@ export const ShowItem = (props) =>{
     const user = JSON.parse(localStorage.getItem('profile'))
     const listingStore = useListingStore();
     const history = useHistory();
-
 
     const initialComment = {
         author:{
@@ -42,12 +43,17 @@ export const ShowItem = (props) =>{
         deleteListing(props.listingId, props.listing?.creator, history);
         listingStore.deleteListing(props.listingId);
     }
-    
+
     return useObserver(()=>(
         <div>
             <h3 >{props.listing.title}</h3>
-            {console.log(props.listing?.image?.toString())}
-            <img alt ="" src={process.env.PUBLIC_URL + props.listing?.image?.toString()}/>
+            { console.log(props.imageURL) }
+            
+                <Carousel images={props.imageURL}/>
+            
+            
+
+            {/* <img alt ="" src={process.env.PUBLIC_URL + props.listing?.image?.toString()}/> */}
             <p>{props.listing.description}</p>
 
             {(user?.result?.id === props.listing?.creator) && (

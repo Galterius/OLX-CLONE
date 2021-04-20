@@ -63,7 +63,7 @@ function NewListing(){
 
             <div className="mb-3">
                 <label htmlFor="image" className="form-label">Choose an Image</label>
-                <input type="file" name="image" onChange={handleImageChange}/>
+                <input type="file" name="image" multiple onChange={handleImageChange}/>
             </div>
             
             <div className="mb-3">
