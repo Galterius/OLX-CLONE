@@ -47,6 +47,7 @@ exports.loginUser = async (req, res) => {
 
     if (existingUser == 'Invalid email or password') {
       res.status(404).json({ message: 'Invalid email or password' });
+      return;
     }
     const mappedToken = userMapper.tokenMapper(existingUser);
     const token = jwt.sign(mappedToken, Config.JwtSecret, { expiresIn: '1h' });

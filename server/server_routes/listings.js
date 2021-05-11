@@ -2,28 +2,10 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/CatchAsync');
 const auth = require('../middleware/auth');
+const validateListing = require('../middleware/validations');
 const owner = require('../middleware/owner');
 const listingController = require('../controllers/ListingsController');
-
-const multer = require('multer');
-
-// //define storage
-// //WITH STORAGE ITS NOT WROKING AND I DONT KNOW WHY
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(
-      null,
-      'C:/Users/Kadeno Solutions/Desktop/OLX-CLONE/client/public/uploads',
-    );
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.fieldname + file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: storage,
-});
+const upload = require('../middleware/imageupload');
 
 router.get('/listings', catchAsync(listingController.getListings));
 

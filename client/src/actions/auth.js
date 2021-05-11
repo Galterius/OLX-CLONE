@@ -1,6 +1,6 @@
 import * as api from '../api/index';
 
-import { logIn } from '../reducer/auth';
+import { logIn } from '../authorization/auth';
 
 export const signin = async (formData, history) => {
   try {

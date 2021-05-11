@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { logOut } from '../reducer/auth';
+import { logOut } from '../authorization/auth';
 import decod from 'jwt-decode';
 
 function NavigationBar() {
