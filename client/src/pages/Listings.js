@@ -2,17 +2,33 @@ import React from 'react';
 import { ListItem } from '../components/ListItem';
 import { useListingStore } from '../store/ListingContext';
 import { useObserver } from 'mobx-react-lite';
+import { CardView } from '../components/views/CardView';
+import { makeStyles } from '@material-ui/core/styles';
 
 function Listings() {
   const listingStore = useListingStore();
+  const useStyles = makeStyles((theme) => ({
+    alignItemsAndJustifyContent: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  }));
+
+  const classes = useStyles();
 
   return useObserver(() => (
-    <div>
-      <ul>
-        {listingStore.listings.map((listing) => (
-          <ListItem key={listing._id} title={listing.title} id={listing._id} />
-        ))}
-      </ul>
+    <div className={classes.alignItemsAndJustifyContent}>
+      {listingStore.listings.map((listing) => (
+        <CardView
+          key={listing._id}
+          id={listing._id}
+          title={listing.title}
+          description={listing.description}
+          createdAt={listing.createdAt}
+          imgUrl={listing.image[0]}
+        />
+      ))}
     </div>
   ));
 }

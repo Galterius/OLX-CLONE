@@ -1,17 +1,12 @@
-import { AUTH } from '../constants/actionTypes';
 import * as api from '../api/index';
 
-import { authReducer } from '../reducer/auth';
+import { logIn } from '../reducer/auth';
 
 export const signin = async (formData, history) => {
   try {
     const { data } = await api.singIn(formData);
 
-    const action = {
-      type: AUTH,
-    };
-
-    authReducer(data, action);
+    logIn(data);
 
     history.push('/listings');
   } catch (error) {
@@ -24,11 +19,7 @@ export const signup = async (formData, history) => {
     console.log(formData);
     const { data } = await api.singUp(formData);
 
-    const action = {
-      type: AUTH,
-    };
-
-    authReducer(data, action);
+    logIn(data);
 
     history.push('/listings');
   } catch (error) {
@@ -39,11 +30,8 @@ export const signup = async (formData, history) => {
 export const googleSignIn = async (authData, history) => {
   try {
     const { data } = await api.googleSignIn(authData, history);
-    const action = {
-      type: AUTH,
-    };
 
-    authReducer(data, action);
+    logIn(data);
 
     history.push('/listings');
   } catch (error) {

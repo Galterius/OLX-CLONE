@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-
 import { signup, signin, googleSignIn } from '../actions/auth';
-import { authReducer } from '../reducer/auth';
-import { AUTH } from '../constants/actionTypes';
 
 const initialState = { name: '', email: '', password: '' };
 

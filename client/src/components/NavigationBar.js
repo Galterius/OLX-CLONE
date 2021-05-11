@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { authReducer } from '../reducer/auth';
+import { logOut } from '../reducer/auth';
 import decod from 'jwt-decode';
-import { LOGOUT } from '../constants/actionTypes';
 
 function NavigationBar() {
   const history = useHistory();
@@ -35,11 +34,7 @@ function NavigationBar() {
   }, [location]); //when the location changes we set the user so it will update the navbar
 
   const logout = () => {
-    const action = {
-      type: LOGOUT,
-    };
-
-    authReducer(undefined, action);
+    logOut(undefined);
 
     history.push('/listings');
     setUser(null);

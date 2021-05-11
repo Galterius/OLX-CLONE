@@ -55,8 +55,8 @@ exports.loginUser = async (req, res) => {
 
     res.status(200).json({ result: result, token });
   } catch (error) {
-    return res.status(500).json({ message: 'Something went wrong' });
     console.log(error);
+    return res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
@@ -66,24 +66,7 @@ exports.googleSignIn = async (req, res) => {
     const CLIENT_ID = Config.ClientID;
     const client = new OAuth2Client(CLIENT_ID);
 
-    async function verify() {
-      const ticket = await client.verifyIdToken({
-        idToken: userToken[0],
-        audience: CLIENT_ID,
-      });
-      const payload = ticket.getPayload();
-      const userid = payload['sub'];
-
-      if (
-        payload.aud == CLIENT_ID &&
-        (payload.iss == 'accounts.google.com' ||
-          payload.iss == 'https://accounts.google.com')
-      ) {
-        return { name: payload.name, email: payload.email, sub: payload.sub };
-      }
-    }
-
-    const userResult = await verify();
+    const userResult = await verify(client, userToken, CLIENT_ID);
 
     //gets the user from the database or if its a registration then stores it
     const authResult = await thirdPartyAuth.googleUserAuthentication(
@@ -101,3 +84,18 @@ exports.googleSignIn = async (req, res) => {
     console.log(error);
   }
 };
+
+async function verify(client, userToken, CLIENT_ID) {
+  const ticket = await client.verifyIdToken({
+    idToken: userToken[0],
+    audience: CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+  if (
+    payload.aud == CLIENT_ID &&
+    (payload.iss == 'accounts.google.com' ||
+      payload.iss == 'https://accounts.google.com')
+  ) {
+    return { name: payload.name, email: payload.email, sub: payload.sub };
+  }
+}

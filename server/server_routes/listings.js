@@ -13,7 +13,7 @@ var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(
       null,
-      'C:/Users/norbe/Desktop/NegyedEv/Learning React/client/public/uploads',
+      'C:/Users/Kadeno Solutions/Desktop/OLX-CLONE/client/public/uploads',
     );
   },
   filename: function (req, file, cb) {
