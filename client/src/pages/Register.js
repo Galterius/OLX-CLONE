@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
 import { signup, signin, googleSignIn } from '../actions/auth';
 import { SignUp } from '../components/UserAuthentication/RegisterItem';
 import { SignIn } from '../components/UserAuthentication/LoginItem';
@@ -49,7 +48,14 @@ function Register() {
       <div className="col-6 offset-3">
         {(isSignup && (
           <>
-            <SignUp setFormData={setFormData} formData={formData} submitForm={handleSubmit} />
+            <SignUp
+              setFormData={setFormData}
+              formData={formData}
+              submitForm={handleSubmit}
+              switchMode={switchMode}
+              googleSuccess={googleSuccess}
+              googleFailure={googleFailure}
+            />
           </>
         )) || (
           <>
@@ -59,25 +65,12 @@ function Register() {
               submitForm={handleSubmit}
               setHandleError={setHandleError}
               handleError={handleError}
+              switchMode={switchMode}
+              googleSuccess={googleSuccess}
+              googleFailure={googleFailure}
             />
           </>
         )}
-
-        <button className="btn btn-primary" onClick={switchMode}>
-          {isSignup ? 'Do you have an account? Sign in' : "Don't have an account? Sign up"}
-        </button>
-
-        <GoogleLogin
-          clientId="824685970461-680qv5dt21iv3tt1met6qosikr0so1in.apps.googleusercontent.com"
-          render={(renderProps) => (
-            <button className="btn btn-warning" onClick={renderProps.onClick}>
-              Google Sign In
-            </button>
-          )}
-          onSuccess={googleSuccess}
-          onFailure={googleFailure}
-          cookiePolicy="single_host_origin"
-        />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { GoogleLogIn } from './GoogleLogInItem';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -207,9 +208,12 @@ export const SignUp = (props) => {
           >
             Sign Up
           </Button>
+
+          <GoogleLogIn googleSuccess={props.googleSuccess} googleFailure={props.googleFailure} />
+
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={props.switchMode}>
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { ListItem } from '../components/ListItem';
 import { useListingStore } from '../store/ListingContext';
 import { useObserver } from 'mobx-react-lite';
 import { CardView } from '../components/views/CardView';

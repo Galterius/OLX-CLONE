@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { GoogleLogIn } from './GoogleLogInItem';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -37,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
 export const SignIn = (props) => {
   const classes = useStyles();
   const { handleSubmit, control } = useForm();
+
+  const switchMode = () => {
+    console.log('!');
+    props.switchMode;
+  };
 
   const onSubmit = (e) => {
     const registrationData = {
@@ -124,6 +130,9 @@ export const SignIn = (props) => {
           >
             Sign In
           </Button>
+
+          <GoogleLogIn googleSuccess={props.googleSuccess} googleFailure={props.googleFailure} />
+
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -131,7 +140,7 @@ export const SignIn = (props) => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={props.switchMode}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
