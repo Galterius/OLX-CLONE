@@ -19,9 +19,10 @@ export const getOneListing = async (id) => {
   }
 };
 
-export const createListing = async (formData) => {
+export const createListing = async (formData, options) => {
   try {
-    const { data } = await api.newListing(formData);
+    const { data } = await api.newListing(formData, options);
+    console.log(data);
 
     return data;
   } catch (error) {

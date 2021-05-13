@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { CommentItem } from './CommentItem';
+import { CommentItem } from './CommentItems/CommentItem';
 import { useListingStore } from '../store/ListingContext';
 import { createComment } from '../actions/comment_actions';
 import { deleteListing } from '../actions/listing_actions';
@@ -75,6 +75,8 @@ export const ShowItem = (props) => {
               type="text"
               name="comment"
               placeholder="Ask Something..."
+              required
+              minLength={2}
               onChange={handleChange}
             />
             <button className="btn btn-success">Add Comment</button>

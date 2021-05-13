@@ -1,5 +1,5 @@
 const listingService = require('../service/ListingService');
-const fs = require('fs');
+const validateListing = require('../middleware/validations');
 
 exports.getListings = async (req, res) => {
   const listings = await listingService.getListingsService();
@@ -8,13 +8,13 @@ exports.getListings = async (req, res) => {
 
 exports.createListing = async (req, res) => {
   try {
+    console.log(req.body);
     let images = [];
     req.files.forEach((image) => {
       images.push(`/uploads/${image.filename}`);
     });
 
     req.body.image = images;
-
     const listing = await listingService.createListingService(
       req.body,
       req.userId,

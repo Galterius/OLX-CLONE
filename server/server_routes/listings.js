@@ -12,7 +12,8 @@ router.get('/listings', catchAsync(listingController.getListings));
 router.post(
   '/listings',
   auth,
-  upload.array('image', 12),
+  upload.array('images', 12),
+  validateListing,
   catchAsync(listingController.createListing),
 );
 
