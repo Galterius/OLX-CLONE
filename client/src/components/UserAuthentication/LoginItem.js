@@ -59,6 +59,9 @@ export const SignIn = (props) => {
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+          {props.handleError == 'Error' && (
+            <Typography color="error">Incorrect Email or Password, please try again</Typography>
+          )}
           <Controller
             name="email"
             control={control}

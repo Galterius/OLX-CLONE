@@ -19,7 +19,7 @@ exports.registerUser = async (req, res) => {
     );
 
     if (registeredUser === 'User already exists') {
-      res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'User already exists' });
     }
 
     const mappedToken = userMapper.tokenMapper(registeredUser);
@@ -28,10 +28,10 @@ exports.registerUser = async (req, res) => {
     const result = userMapper.authenticationMapper(registeredUser);
 
     //sending back the user and the token
-    res.status(200).json({ result: result, token });
+    return res.status(200).json({ result: result, token });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong' });
     console.log(error);
+    return res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
@@ -42,19 +42,18 @@ exports.loginUser = async (req, res) => {
     const existingUser = await userService.loginUser(email, password);
 
     if (existingUser == "User doesn't exists") {
-      res.status(404).json({ message: 'User does not exist' });
+      return res.status(404).json({ message: 'User does not exist' });
     }
 
     if (existingUser == 'Invalid email or password') {
-      res.status(404).json({ message: 'Invalid email or password' });
-      return;
+      return res.status(404).json({ message: 'Invalid email or password' });
     }
     const mappedToken = userMapper.tokenMapper(existingUser);
     const token = jwt.sign(mappedToken, Config.JwtSecret, { expiresIn: '1h' });
 
     const result = userMapper.authenticationMapper(existingUser);
 
-    res.status(200).json({ result: result, token });
+    return res.status(200).json({ result: result, token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Something went wrong' });
@@ -80,7 +79,7 @@ exports.googleSignIn = async (req, res) => {
 
     const result = userMapper.authenticationMapper(authResult);
 
-    res.status(200).json({ result: result, token });
+    return res.status(200).json({ result: result, token });
   } catch (error) {
     console.log(error);
   }

@@ -11,6 +11,7 @@ function Register() {
   const [formData, setFormData] = useState(initialState);
 
   const [isSignup, setIsSignup] = useState(false);
+  const [handleError, setHandleError] = useState('');
   const history = useHistory();
 
   const switchMode = () => {
@@ -32,12 +33,14 @@ function Register() {
     console.log('Google Sign Error');
   };
 
-  const handleSubmit = (e) => {
-    console.log('in');
+  const handleSubmit = async (e) => {
     if (isSignup) {
       signup(formData, history);
     } else {
-      signin(formData, history);
+      const result = await signin(formData, history);
+      if (result?.toString()?.includes('Error')) {
+        setHandleError('Error');
+      }
     }
   };
 
@@ -50,7 +53,13 @@ function Register() {
           </>
         )) || (
           <>
-            <SignIn setFormData={setFormData} formData={formData} submitForm={handleSubmit} />
+            <SignIn
+              setFormData={setFormData}
+              formData={formData}
+              submitForm={handleSubmit}
+              setHandleError={setHandleError}
+              handleError={handleError}
+            />
           </>
         )}
 

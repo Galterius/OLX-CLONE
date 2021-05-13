@@ -10,7 +10,7 @@ export const signin = async (formData, history) => {
 
     history.push('/listings');
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 
