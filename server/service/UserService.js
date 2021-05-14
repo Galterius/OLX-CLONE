@@ -51,11 +51,33 @@ exports.loginUser = async (userEmail, userPassword) => {
       return 'Invalid email or password';
     }
 
-    console.log(existingUser);
+    return existingUser;
+  } catch (error) {
+    console.log(error);
+    return 'Something went wrong';
+  }
+};
+
+exports.getOneUser = async (userId) => {
+  try {
+    const existingUser = await User.findOne({ _id: userId }).select('-__v');
+
+    if (!existingUser) {
+      return "User doesn't exists";
+    }
 
     return existingUser;
   } catch (error) {
     console.log(error);
     return 'Something went wrong';
+  }
+};
+
+exports.updateOneUser = async (userId, userData) => {
+  try {
+    console.log(userId);
+    console.log(userData);
+  } catch (error) {
+    console.log(error);
   }
 };

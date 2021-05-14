@@ -5,9 +5,10 @@ const bodyParser = require('body-parser');
 // const fileUpload = require('express-fileupload')
 
 const expressError = require('./utils/ExpressError');
-const userRoutes = require('./server_routes/authentication');
+const authRoutes = require('./server_routes/authentication');
 const listingRoutes = require('./server_routes/listings');
 const commentRoutes = require('./server_routes/comments');
+const userRoutes = require('./server_routes/userprofile');
 
 mongoose.connect('mongodb://localhost:27017/Sell_It', {
   useNewUrlParser: true,
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 //app.use('/api/user', userRoutes);
 app.use('/api', listingRoutes);
 app.use('/api/listings/:id/comments', commentRoutes);
+app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 
 app.all('*', (req, res, next) => {

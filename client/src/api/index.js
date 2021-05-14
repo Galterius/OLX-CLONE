@@ -24,6 +24,9 @@ export const editComment = (commentId, comment) =>
   API.put(`/api/listings/:id/comments/${commentId}`, comment);
 export const deleteComment = (commentId) => API.delete(`/api/listings/:id/comments/${commentId}`);
 
-export const singIn = (formData) => API.post('user/login', formData);
-export const singUp = (formData) => API.post('user/register', formData);
-export const googleSignIn = (authData) => API.post('user/gsignin', authData);
+export const getUser = (id) => API.get(`/user/userprofile/${id}`);
+export const updatedUser = (id, updatedUser) => API.put(`/user/userprofile/${id}`, updatedUser);
+
+export const singIn = (formData) => API.post('/auth/login', formData);
+export const singUp = (formData) => API.post('/auth/register', formData);
+export const googleSignIn = (authData) => API.post('/auth/gsignin', authData);

@@ -9,7 +9,7 @@ const UserSchema = new Schema(
     },
     birthday: {
       type: String,
-      default: null,
+      sparse: true,
     },
     email: {
       type: String,
@@ -18,15 +18,15 @@ const UserSchema = new Schema(
     },
     phoneNumber: {
       type: String,
-      default: null,
+      sparse: true,
     },
     password: {
       type: String,
       select: false,
     },
-    sub: {
+    GoogleID: {
       type: String,
-      default: null,
+      sparse: true,
     },
   },
   { strict: false },

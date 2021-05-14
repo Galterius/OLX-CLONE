@@ -5,3 +5,12 @@ exports.authenticationMapper = (userData) => {
 exports.tokenMapper = (userData) => {
   return { email: userData.email, id: userData._id };
 };
+
+exports.userDataMapper = (userData) => {
+  return {
+    name: userData.name,
+    email: userData.email,
+    phoneNumber: userData.phoneNumber,
+    birthDay: userData.birthday,
+  };
+};
