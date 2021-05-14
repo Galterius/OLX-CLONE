@@ -2,7 +2,13 @@ const bcrypt = require('bcryptjs');
 //database requirements
 const User = require('../models/user-models');
 
-exports.registerUser = async (userEmail, userPassword, userName) => {
+exports.registerUser = async (
+  userEmail,
+  userPassword,
+  userName,
+  userBirthday,
+  userPhoneNumber,
+) => {
   try {
     console.log(userEmail, userPassword, userName);
     const existingUser = await User.findOne({ email: userEmail });
@@ -14,6 +20,8 @@ exports.registerUser = async (userEmail, userPassword, userName) => {
     const result = await User.create({
       name: userName,
       email: userEmail,
+      birthday: userBirthday,
+      phoneNumber: userPhoneNumber,
       password: hashedPassword,
     });
 

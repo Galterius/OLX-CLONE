@@ -7,10 +7,18 @@ const UserSchema = new Schema(
       type: String,
       require: true,
     },
+    birthday: {
+      type: String,
+      default: null,
+    },
     email: {
       type: String,
       required: true,
       unique: true,
+    },
+    phoneNumber: {
+      type: String,
+      default: null,
     },
     password: {
       type: String,

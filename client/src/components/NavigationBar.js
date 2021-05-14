@@ -56,8 +56,16 @@ function NavigationBar() {
       </ul>
       {user ? (
         <div>
-          <li>{user.result.name}</li>
-          <button onClick={logout}>Log out</button>
+          <div>
+            <li>{user.result.name}</li>
+            <button onClick={logout}>Log out</button>
+          </div>
+
+          <div>
+            <Link style={navStyle} to="userprofile">
+              <li>Your profile</li>
+            </Link>
+          </div>
         </div>
       ) : (
         <Link style={navStyle} to="/register">

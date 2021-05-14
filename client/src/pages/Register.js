@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { signup, signin, googleSignIn } from '../actions/auth';
-import { SignUp } from '../components/UserAuthentication/RegisterItem';
-import { SignIn } from '../components/UserAuthentication/LoginItem';
-
-const initialState = { name: '', email: '', password: '' };
+import { RegisterItem } from '../components/UserAuthentication/RegisterItem';
+import { LoginItem } from '../components/UserAuthentication/LoginItem';
 
 function Register() {
-  const [formData, setFormData] = useState(initialState);
-
   const [isSignup, setIsSignup] = useState(false);
-  const [handleError, setHandleError] = useState('');
   const history = useHistory();
 
   const switchMode = () => {
@@ -32,26 +27,12 @@ function Register() {
     console.log('Google Sign Error');
   };
 
-  const handleSubmit = async (e) => {
-    if (isSignup) {
-      signup(formData, history);
-    } else {
-      const result = await signin(formData, history);
-      if (result?.toString()?.includes('Error')) {
-        setHandleError('Error');
-      }
-    }
-  };
-
   return (
     <div className="row">
       <div className="col-6 offset-3">
         {(isSignup && (
           <>
-            <SignUp
-              setFormData={setFormData}
-              formData={formData}
-              submitForm={handleSubmit}
+            <RegisterItem
               switchMode={switchMode}
               googleSuccess={googleSuccess}
               googleFailure={googleFailure}
@@ -59,12 +40,7 @@ function Register() {
           </>
         )) || (
           <>
-            <SignIn
-              setFormData={setFormData}
-              formData={formData}
-              submitForm={handleSubmit}
-              setHandleError={setHandleError}
-              handleError={handleError}
+            <LoginItem
               switchMode={switchMode}
               googleSuccess={googleSuccess}
               googleFailure={googleFailure}

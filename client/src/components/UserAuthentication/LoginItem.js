@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { GoogleLogIn } from './GoogleLogInItem';
+import { useHistory } from 'react-router-dom';
+import { signin } from '../../actions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -15,43 +17,25 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
-export const SignIn = (props) => {
+export const LoginItem = (props) => {
   const classes = useStyles();
   const { handleSubmit, control } = useForm();
 
-  const switchMode = () => {
-    console.log('!');
-    props.switchMode;
-  };
+  const [handleError, setHandleError] = useState('');
+  const history = useHistory();
 
-  const onSubmit = (e) => {
-    const registrationData = {
+  const onSubmit = async (e) => {
+    //long story short in case of react-hook-form uses ref and will not work with use effect, the event that it returns is already in state
+
+    const loginData = {
       email: e.email,
       password: e.password,
     };
 
-    props.setFormData({ ...registrationData });
-    props.submitForm();
+    const result = await signin(loginData, history);
+    if (result?.toString()?.includes('Error')) {
+      setHandleError('Error');
+    }
   };
 
   return (
@@ -65,7 +49,7 @@ export const SignIn = (props) => {
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
-          {props.handleError == 'Error' && (
+          {handleError == 'Error' && (
             <Typography color="error">Incorrect Email or Password, please try again</Typography>
           )}
           <Controller
@@ -150,3 +134,23 @@ export const SignIn = (props) => {
     </Container>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));

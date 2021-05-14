@@ -15,6 +15,7 @@ import { getListing } from './actions/listing_actions';
 import NavigationBar from './components/NavigationBar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useListingStore } from './store/ListingContext';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   const listingStore = useListingStore();
@@ -44,6 +45,7 @@ function App() {
           <Route path="/addlisting" component={NewListing} />
 
           <Route exact path="/register" component={Register} />
+          <Route exact path="/userprofile" component={UserProfile} />
         </Switch>
       </div>
     </Router>

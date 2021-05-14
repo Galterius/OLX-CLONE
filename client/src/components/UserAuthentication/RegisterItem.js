@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { GoogleLogIn } from './GoogleLogInItem';
+import { useHistory } from 'react-router-dom';
+import { signup } from '../../actions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,29 +14,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import MuiPhoneNumber from 'material-ui-phone-number';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
-export const SignUp = (props) => {
+export const RegisterItem = (props) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const {
     register,
     formState: { errors },
@@ -48,14 +33,16 @@ export const SignUp = (props) => {
 
   const onSubmit = (e) => {
     e.name = e.firstName + ' ' + e.lastName;
+
     const registrationData = {
       name: e.name,
+      birthday: e.birthday,
       email: e.email,
       password: e.password,
+      phoneNumber: e.phoneNumber,
     };
 
-    props.setFormData({ ...registrationData });
-    props.submitForm();
+    signup(registrationData, history);
   };
 
   return (
@@ -118,6 +105,23 @@ export const SignUp = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
+              <TextField
+                id="date"
+                name="birthday"
+                label="Birthday"
+                type="date"
+                defaultValue="2017-05-24"
+                fullWidth
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                {...register('birthday', {
+                  required: true,
+                })}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <Controller
                 name="email"
                 control={control}
@@ -140,22 +144,33 @@ export const SignUp = (props) => {
                 rules={{ required: 'Sorry but Email is requiered' }}
               />
             </Grid>
-            {/* <TextField
-              id="date"
-              name="birthday"
-              label="Birthday"
-              type="date"
-              defaultValue="2017-05-24"
-              fullWidth
-              required
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              {...register('birthday', {
-                required: true,
-              })}
-            /> */}
+            <Grid item xs={12}>
+              <Controller
+                name="phoneNumber"
+                control={control}
+                defaultValue=""
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                  <MuiPhoneNumber
+                    name="phoneNumber"
+                    onChange={onChange}
+                    value={value}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                    defaultCountry={'ro'}
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                rules={{
+                  minLength: {
+                    value: 10,
+                    message: 'Phone number must contain at least 10 characters',
+                  },
+                  required: { message: 'Phone number is requiered' },
+                }}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -223,3 +238,23 @@ export const SignUp = (props) => {
     </Container>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));

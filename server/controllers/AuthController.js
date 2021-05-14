@@ -8,14 +8,16 @@ const thirdPartyAuth = require('../service/ThirdPartyAuthService');
 const { Config } = require('../config/config');
 
 exports.registerUser = async (req, res) => {
-  const { email, password, name } = req.body;
-  console.log(email, password, name);
+  const { email, password, name, birthday, phoneNumber } = req.body;
+  console.log(email, password, name, birthday, phoneNumber);
 
   try {
     const registeredUser = await userService.registerUser(
       email,
       password,
       name,
+      birthday,
+      phoneNumber,
     );
 
     if (registeredUser === 'User already exists') {

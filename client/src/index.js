@@ -7,11 +7,9 @@ import { ListingProvider } from './store/ListingContext';
 //store is a globalized state where you can pull data from with redux so you don't have to go down on the component tree
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ListingProvider>
-      <App />
-    </ListingProvider>
-  </React.StrictMode>,
+  <ListingProvider>
+    <App />
+  </ListingProvider>,
   document.getElementById('root'),
 );
 
