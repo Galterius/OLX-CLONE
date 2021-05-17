@@ -3,6 +3,7 @@ const Comments = require('../models/comments');
 
 exports.createCommentServie = async (id, commentData) => {
   try {
+    console.log(commentData);
     const listing = await Listing.findById(id);
 
     const newComment = await Comments.create({ ...commentData });
@@ -31,6 +32,7 @@ exports.editCommentServie = async (commentId, updatedComment) => {
 };
 
 exports.deleteCommentService = async (commentId) => {
+  console.log('wtf');
   try {
     const deletedComment = await Comments.findByIdAndRemove(commentId);
 

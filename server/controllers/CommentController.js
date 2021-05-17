@@ -29,6 +29,7 @@ exports.editComment = async (req, res) => {
 };
 
 exports.deleteComment = async (req, res) => {
+  console.log('wtyf');
   try {
     const { comment_id } = req.params;
     const deleted = await commentService.deleteCommentService(comment_id);

@@ -9,6 +9,7 @@ import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
 import { toJS } from 'mobx';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { Grid } from '@material-ui/core';
 
 export const ShowItem = (props) => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -39,7 +40,7 @@ export const ShowItem = (props) => {
     setMap(map);
   }, []);
 
-  const onUnmount = useCallback((map) => {
+  const onUnmount = useCallback(() => {
     setMap(null);
   }, []);
 
@@ -55,7 +56,6 @@ export const ShowItem = (props) => {
 
   const handleDeleteClick = async (e) => {
     e.preventDefault();
-    console.log(props.listingId);
     deleteListing(props.listingId, props.listing?.creator, history);
     listingStore.deleteListing(props.listingId);
   };
@@ -63,10 +63,12 @@ export const ShowItem = (props) => {
   return useObserver(() => (
     <div>
       <h3>{props.listing.title}</h3>
+      <Grid container spacing={2}>
+        <Grid item sm={6}>
+          <Carousel images={props.imageURL} />
+        </Grid>
+      </Grid>
 
-      <Carousel images={props.imageURL} />
-
-      {/* <img alt ="" src={process.env.PUBLIC_URL + props.listing?.image?.toString()}/> */}
       <p>{props.listing.description}</p>
 
       {user?.result?.id === props.listing?.creator && (
@@ -93,7 +95,7 @@ export const ShowItem = (props) => {
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
-          <Marker position={{ lat: 46.357104, lng: 24.112696 }} />
+          <Marker position={center} />
         </GoogleMap>
       ) : (
         <></>
@@ -113,7 +115,6 @@ export const ShowItem = (props) => {
           </form>
         </div>
       )) || <p>Log in to write a comment</p>}
-      {console.log(toJS(listingStore.selectedListing[0])?.comments)}
       {toJS(listingStore.selectedListing[0])?.comments?.map((comment) => (
         <CommentItem
           key={comment._id}

@@ -13,7 +13,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PhoneIcon from '@material-ui/icons/Phone';
 import EmailIcon from '@material-ui/icons/Email';
 import CakeIcon from '@material-ui/icons/Cake';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
+// LOCATION SELECTING IS NOT WORKING BECAUSE MY I CANNOT SET MY BILLING ADDRESS, BUT THE CODE SHOULD RUN ONCE I ITS SET
 export const UserProfileItem = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
   const initialState = { name: '', email: '', phoneNumber: '', birthDay: '' };
@@ -21,6 +23,12 @@ export const UserProfileItem = () => {
 
   const [userData, setUserData] = useState(initialState);
   const [isEdit, setIsEdit] = useState(false);
+  const [address, setAddress] = useState('');
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
+
   const { register, handleSubmit, control } = useForm();
 
   useEffect(() => {
@@ -35,6 +43,13 @@ export const UserProfileItem = () => {
 
   const switchState = () => {
     setIsEdit((prevSate) => !prevSate);
+  };
+
+  const handleSelect = async (value) => {
+    const result = await geocodeByAddress(value);
+    const latlang = await getLatLng(result[0]);
+    setAddress(value);
+    setCoordinates(latlang);
   };
 
   const onSubmit = async (e) => {
@@ -161,6 +176,44 @@ export const UserProfileItem = () => {
                     />
                   </Grid>
 
+                  {/* NOT WORKING BECAUSE OF BILLING PROBLEM */}
+                  {/* <Grid item xs={12}>
+                    <PlacesAutocomplete
+                      value={address}
+                      onChange={setAddress}
+                      onSelect={handleSelect}
+                    >
+                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                        <div>
+                          <TextField
+                            variant="outlined"
+                            fullWidth
+                            placeholder="Type your address"
+                            name="address"
+                            {...getInputProps({})}
+                          />
+                          <div>
+                            {loading ? <div>...loading</div> : null}
+                            {suggestions.map((suggestion, index) => {
+                              const style = suggestion.active
+                                ? classes.activeColor
+                                : classes.inActiveColor;
+
+                              return (
+                                <Typography
+                                  key={index}
+                                  {...getSuggestionItemProps(suggestion, { style })}
+                                >
+                                  {suggestion.description}
+                                </Typography>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </PlacesAutocomplete>
+                  </Grid> */}
+
                   <Grid item xs={12}>
                     <TextField
                       id="date"
@@ -246,5 +299,13 @@ const useStyle = makeStyles((theme) => ({
   profileIcon: {
     fontSize: 50,
     marginTop: theme.spacing(3),
+  },
+
+  activeColor: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+  },
+
+  inActiveColor: {
+    background: 'linear-gradient(45deg, #FFF 30%, #FFF 90%)',
   },
 }));
