@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { CommentItem } from '../CommentItems/CommentItem';
 import { useListingStore } from '../../store/ListingContext';
@@ -8,6 +8,7 @@ import { useObserver } from 'mobx-react-lite';
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
 import { toJS } from 'mobx';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 export const ShowItem = (props) => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -24,6 +25,23 @@ export const ShowItem = (props) => {
   };
 
   const [newComment, setComment] = useState(initialComment);
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+  });
+
+  const [map, setMap] = useState(null);
+
+  const onLoad = useCallback((map) => {
+    const bounds = new window.google.maps.LatLngBounds();
+    map.fitBounds(bounds);
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback((map) => {
+    setMap(null);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,7 +63,6 @@ export const ShowItem = (props) => {
   return useObserver(() => (
     <div>
       <h3>{props.listing.title}</h3>
-      {console.log(props.imageURL)}
 
       <Carousel images={props.imageURL} />
 
@@ -67,7 +84,20 @@ export const ShowItem = (props) => {
           </Link>
         </div>
       )}
-
+      {/* not going to work because i don't have a billing account yet */}
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={15}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          <Marker position={{ lat: 46.357104, lng: 24.112696 }} />
+        </GoogleMap>
+      ) : (
+        <></>
+      )}
       {(user && (
         <div className="d-flex justify-content-center mb-3">
           <form onSubmit={handleSubmit}>
@@ -84,7 +114,7 @@ export const ShowItem = (props) => {
         </div>
       )) || <p>Log in to write a comment</p>}
       {console.log(toJS(listingStore.selectedListing[0])?.comments)}
-      {toJS(listingStore.selectedListing[0])?.comments.map((comment) => (
+      {toJS(listingStore.selectedListing[0])?.comments?.map((comment) => (
         <CommentItem
           key={comment._id}
           comment={comment}
@@ -94,4 +124,14 @@ export const ShowItem = (props) => {
       ))}
     </div>
   ));
+};
+
+const containerStyle = {
+  width: '400px',
+  height: '400px',
+};
+
+const center = {
+  lat: 46.357104,
+  lng: 24.112696,
 };

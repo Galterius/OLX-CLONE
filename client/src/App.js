@@ -26,7 +26,7 @@ function App() {
 
   const fetchAllListings = async () => {
     const data = await getListing();
-    data.forEach((element) => listingStore.addListings(element));
+    data?.forEach((element) => listingStore.addListings(element));
     console.log('1');
   };
 
@@ -38,14 +38,12 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
-
+          <Route exact path="/register" component={Register} />
           <Route exact path="/listings" component={Listings} />
           <Route exact path="/listing/:id" component={Show} />
           <Route exact path="/listing/edit/:id" component={Edit} />
           <Route path="/addlisting" component={NewListing} />
-
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/userprofile" component={UserProfile} />
+          <Route path="/userprofile" component={UserProfile} />
         </Switch>
       </div>
     </Router>

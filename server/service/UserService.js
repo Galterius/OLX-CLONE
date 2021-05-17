@@ -75,9 +75,14 @@ exports.getOneUser = async (userId) => {
 
 exports.updateOneUser = async (userId, userData) => {
   try {
-    console.log(userId);
-    console.log(userData);
+    const result = await User.findByIdAndUpdate(userId, { ...userData });
+    if (!result) {
+      return 'User not Found';
+    }
+
+    return result;
   } catch (error) {
     console.log(error);
+    return 'Something went wrong';
   }
 };

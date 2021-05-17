@@ -64,10 +64,6 @@ export const AddFormItem = (props) => {
     const formData = new FormData(form.current);
     formData.append('name', props.name);
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-
     const returnedListing = await createListing(formData, options).then((res) => {
       setUploadPercentage(100);
       setTimeout(() => {
